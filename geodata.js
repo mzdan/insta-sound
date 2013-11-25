@@ -5,7 +5,20 @@ var geodata = [
 	["midtown", "2013-10-21 12:37:22"],
 	["east village", "2013-10-21 12:38:22"]
 ];
+
+
+var neighborhoodNotes = {
+	"chelsea" : "A3", 
+	"midtown" : "D3", 
+	"east village" : "E3", 
+	"chinatown" : "F3", 
+	"west village" : "G3", 
+	};
+
+
 function preparePost (post){
-	return [post[0], new Date(post[1])];
+	var neighborhood = post[0];
+	return [neighborhood, new Date(post[1]), neighborhoodNotes[neighborhood]];
 }
+
 var posts = geodata.map (preparePost);
