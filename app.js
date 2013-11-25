@@ -1,4 +1,4 @@
-console.log(geodata);
+console.log(posts);
 
 var channel_max = 10;										
 // number of channels
