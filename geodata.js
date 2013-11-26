@@ -12,7 +12,6 @@ var neighborhoodNotes = {
 	"midtown" : "D3", 
 	"east village" : "E3", 
 	"chinatown" : "F3", 
-	"west village" : "G3", 
 	};
 
 
@@ -22,3 +21,4 @@ function preparePost (post){
 }
 
 var posts = geodata.map (preparePost);
+
