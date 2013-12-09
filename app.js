@@ -92,15 +92,15 @@ function playBorough(borough) {
 
 }
 
+// Line bar settings:
+var margin = {top: 30, right: 30, bottom: 30, left: 30},
+    width = 400 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
 // Load Instagram data, draw the time plot, and start
 // "playing" instagram posts, highlighting the neighborhood of each post on the map.
-
 d3.tsv('nyc_sample.tsv', function(error, data) {
     instagram_data = data;
-
-    var margin = {top: 30, right: 30, bottom: 30, left: 60},
-        width = 500 - margin.left - margin.right,
-        height = 200 - margin.top - margin.bottom;
 
     data.forEach(function(d){
         d.publishedDate = new Date(d.published);
@@ -114,7 +114,7 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
         .domain([firstPublishedDate, lastPublishedDate])
         .range([0, width]);
 
-    var format = d3.time.format("%Y-%m-%d %H:%M");
+    var format = d3.time.format("%b %e %H:%M");
 
     var timeAxis = d3.svg.axis()
         .scale(timeScale)
