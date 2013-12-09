@@ -9,29 +9,36 @@ function style(feature) {
     };
 }
 
-// Set hover colors
-function highlightFeature(e) {
-    var layer = e.target;
+function highlightFeature(layer) {
     layer.setStyle({
-    weight: 10,
-    opacity: 1,
-    color: '#09F',
-    dashArray: '3',
-    fillOpacity: 0.7,
-    fillColor: '#FEB24C'
+        weight: 10,
+        opacity: 1,
+        color: '#09F',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: '#FEB24C'
     });
 }
 
+function resetHighlight(layer) {
+    geojson.resetStyle(layer);
+}
+
+// Set hover colors
+function highlightFeatureHandler(e) {
+    highlightFeature(e.target);
+}
+
 // A function to reset the colors when a neighborhood is not longer 'hovered'
-function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+function resetHighlightHandler(e) {
+    resetHighlight(e.target);
 }
 
 // Tell MapBox.js what functions to call when mousing over and out of a neighborhood
 function onEachFeature(feature, layer) {
     layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight
+        mouseover: highlightFeatureHandler,
+        mouseout: resetHighlightHandler
     });
 }
 
@@ -49,5 +56,31 @@ var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
 topLayer.setZIndex(7);
 
-console.log(leafletPip.pointInLayer([40.744034,-73.99624], geojson));
 
+function layerFromLatLng(latLng) {
+    return leafletPip.pointInLayer(latLng, geojson)[0];
+}
+
+function neighborhoodFromPoint(point) {
+    return layerFromLatLng(L.latLng(point)).feature.properties.NTAName;
+}
+
+var ll = L.latLng(40.744034,-73.99624);
+
+L.mapbox.markerLayer({
+    // this feature is in the GeoJSON format: see geojson.org
+    // for the full specification
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        // coordinates here are in longitude, latitude order because
+        // x, y is the standard for GeoJSON and many formats
+        coordinates: [-73.99624,40.744034]
+    },
+    properties: {
+        'marker-size': 'small',
+        'marker-color': '#00a'
+    }
+}).addTo(map);
+
+highlightFeature(layerFromLatLng(L.latLng(40.744034, -73.99634)));
