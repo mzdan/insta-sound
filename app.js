@@ -2,7 +2,9 @@
 var PLAY_INTERVAL = 1500;
 
 // Create a map, centered on Manhattan, to display instagram posts and neighborhoods.
-var map = L.mapbox.map('map').setView([40.775,-73.98], 11);
+var MAP_CENTER = [40.775,-73.98];
+var MAP_ZOOM = 11;
+var map = L.mapbox.map('map').setView(MAP_CENTER, MAP_ZOOM);
 
 // Set base style of vector data
 function style(feature) {
@@ -92,20 +94,16 @@ function playBorough(borough) {
 
 }
 
-// Line bar settings:
-var margin = {top: 30, right: 30, bottom: 30, left: 30},
-    width = 400 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+/**
+ * Draws a series of vertical lines corresponding to instagram posts.
+ * @param data the instagram post data
+ */
+function drawLineBar(data) {
 
-// Load Instagram data, draw the time plot, and start
-// "playing" instagram posts, highlighting the neighborhood of each post on the map.
-d3.tsv('nyc_sample.tsv', function(error, data) {
-    instagram_data = data;
-
-    data.forEach(function(d){
-        d.publishedDate = new Date(d.published);
-        d.color = "#f00";
-    });
+    // Line bar settings:
+    var margin = {top: 30, right: 30, bottom: 30, left: 30},
+        width = 400 - margin.left - margin.right,
+        height = 200 - margin.top - margin.bottom;
 
     var firstPublishedDate = instagram_data[0].publishedDate;
     var lastPublishedDate = instagram_data[instagram_data.length - 1].publishedDate;
@@ -144,27 +142,43 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
         .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
         .call(timeAxis);
 
+}
+
+/**
+ * Adds a marker to the map
+ * @param post the post for which to add a marker
+ */
+function addMarker(post) {
+    L.mapbox.markerLayer({
+        // this feature is in the GeoJSON format: see geojson.org
+        // for the full specification
+        type: 'Feature',
+        geometry: {
+            type: 'Point',
+            // coordinates here are in longitude, latitude order because
+            // x, y is the standard for GeoJSON and many formats
+            coordinates: [post.longitude, post.latitude]
+        },
+        properties: {
+            'marker-size': 'small',
+            'marker-color': '#00a'
+        }
+    }).addTo(map);
+}
+
+/**
+ * Runs the whole show.
+ *
+ * Adds a marker, , highlighting the neighborhood, plays the borough note, and updates the image and text
+ * for each instagram post.
+ */
+function play() {
 
     var i = 0;
     function playNextInstagramPost() {
 
         var post = instagram_data[i];
-
-        L.mapbox.markerLayer({
-            // this feature is in the GeoJSON format: see geojson.org
-            // for the full specification
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                // coordinates here are in longitude, latitude order because
-                // x, y is the standard for GeoJSON and many formats
-                coordinates: [post.longitude, post.latitude]
-            },
-            properties: {
-                'marker-size': 'small',
-                'marker-color': '#00a'
-            }
-        }).addTo(map);
+        addMarker(post);
 
         var ll = L.latLng(post.latitude, post.longitude);
         var layer = layerFromLatLng(ll);
@@ -198,6 +212,20 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
 
     playNextInstagramPost();
 
-});
+}
 
+// Load Instagram data, draw the time plot, and start
+// "playing" instagram posts.
+d3.tsv('nyc_sample.tsv', function(error, data) {
+    instagram_data = data;
+
+    data.forEach(function(d){
+        d.publishedDate = new Date(d.published);
+        d.color = "#f00";
+    });
+
+    drawLineBar(data);
+    play();
+
+});
 
