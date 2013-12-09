@@ -202,11 +202,6 @@ function play() {
         if(i < instagram_data.length) {
             setTimeout(playNextInstagramPost, PLAY_INTERVAL);
         }
-        else {
-            setTimeout(function(){
-                document.getElementById("image").innerHTML = "";
-            }, PLAY_INTERVAL);
-        }
 
     }
 
