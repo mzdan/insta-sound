@@ -1,4 +1,4 @@
-var map = L.mapbox.map('map').setView([40.75, -73.94], 15);
+var map = L.mapbox.map('map').setView([40.775,-73.98], 12);
 
 // Set base style of vector data
 function style(feature) {
@@ -25,7 +25,7 @@ function highlightFeature(e) {
 // A function to reset the colors when a neighborhood is not longer 'hovered'
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
-    }
+}
 
 // Tell MapBox.js what functions to call when mousing over and out of a neighborhood
 function onEachFeature(feature, layer) {
@@ -39,7 +39,7 @@ function onEachFeature(feature, layer) {
 geojson = L.geoJson(neighborhoods, {
     style: style,
     onEachFeature: onEachFeature
-    }).addTo(map);
+}).addTo(map);
 
 // Here is where the magic happens: Manipulate the z-index of tile layers,
 // this makes sure our vector data shows up above the background map and
@@ -48,4 +48,6 @@ var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
 var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
 topLayer.setZIndex(7);
+
+console.log(leafletPip.pointInLayer([40.744034,-73.99624], geojson));
 
