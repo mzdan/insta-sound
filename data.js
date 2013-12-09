@@ -47,4 +47,35 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
         .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
         .call(timeAxis);
 
+
+    var i = 0;
+    function playInstagramPost() {
+        var post = instagram_data[i];
+        L.mapbox.markerLayer({
+            // this feature is in the GeoJSON format: see geojson.org
+            // for the full specification
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                // coordinates here are in longitude, latitude order because
+                // x, y is the standard for GeoJSON and many formats
+                coordinates: [post.longitude, post.latitude]
+            },
+            properties: {
+                'marker-size': 'small',
+                'marker-color': '#00a'
+            }
+        }).addTo(map);
+        var ll = L.latLng(post.latitude, post.longitude);
+        var layer = layerFromLatLng(ll);
+        highlightFeature(layer);
+        console.log(layer.feature.properties.NTAName)
+        i++;
+        if(i < instagram_data.length) {
+            setTimeout(playInstagramPost, 1000);
+        }
+    }
+
+    playInstagramPost();
+
 });

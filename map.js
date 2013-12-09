@@ -18,34 +18,17 @@ function highlightFeature(layer) {
         fillOpacity: 0.7,
         fillColor: '#FEB24C'
     });
+
+    setTimeout(function() { resetHighlight(layer) }, 1000);
 }
 
 function resetHighlight(layer) {
     geojson.resetStyle(layer);
 }
 
-// Set hover colors
-function highlightFeatureHandler(e) {
-    highlightFeature(e.target);
-}
-
-// A function to reset the colors when a neighborhood is not longer 'hovered'
-function resetHighlightHandler(e) {
-    resetHighlight(e.target);
-}
-
-// Tell MapBox.js what functions to call when mousing over and out of a neighborhood
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeatureHandler,
-        mouseout: resetHighlightHandler
-    });
-}
-
 // Add vector data to map
 geojson = L.geoJson(neighborhoods, {
-    style: style,
-    onEachFeature: onEachFeature
+    style: style
 }).addTo(map);
 
 // Here is where the magic happens: Manipulate the z-index of tile layers,
@@ -65,22 +48,3 @@ function neighborhoodFromPoint(point) {
     return layerFromLatLng(L.latLng(point)).feature.properties.NTAName;
 }
 
-var ll = L.latLng(40.744034,-73.99624);
-
-L.mapbox.markerLayer({
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type: 'Feature',
-    geometry: {
-        type: 'Point',
-        // coordinates here are in longitude, latitude order because
-        // x, y is the standard for GeoJSON and many formats
-        coordinates: [-73.99624,40.744034]
-    },
-    properties: {
-        'marker-size': 'small',
-        'marker-color': '#00a'
-    }
-}).addTo(map);
-
-highlightFeature(layerFromLatLng(L.latLng(40.744034, -73.99634)));
