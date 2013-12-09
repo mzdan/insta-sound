@@ -14,7 +14,10 @@
     width: 200px;
 }
 
-#neighborhood {
-    padding-left: 50;
+#borough, #neighborhood {
     font-family: 'Quantico', sans-serif;
+}
+
+#borough {
+    font-size: 40px
 }

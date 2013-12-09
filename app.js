@@ -132,10 +132,13 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
 
         if(layer) {
             highlightFeature(layer);
+            console.log(layer.feature.properties);
+            var borough = layer.feature.properties.BoroName;
             var neighborhood = layer.feature.properties.NTAName;
+            document.getElementById("borough").innerText = borough;
             document.getElementById("neighborhood").innerText = neighborhood;
             document.getElementById("image").innerHTML = "<img src='" + post.link_preview + "'>";
-            console.log(post.link_preview);
+            console.log(post);
         }
 
         i++;
