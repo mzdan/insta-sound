@@ -1,17 +1,17 @@
 #map {
     padding: 0;
     margin: 0;
-    width: 600px;
-    height: 600px;
+    width: 400px;
+    height: 400px;
 }
 
 .leaflet-top-pane {
     pointer-events: none;
 }
 
-#image {
-    height: 200px;
-    width: 200px;
+.instagram_post {
+    width: 400px;
+    height: 400px;
 }
 
 #borough, #neighborhood {
@@ -21,3 +21,4 @@
 #borough {
     font-size: 40px
 }
+

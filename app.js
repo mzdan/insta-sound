@@ -1,5 +1,8 @@
+// interval in milliseconds
+var PLAY_INTERVAL = 1500;
+
 // Create a map, centered on Manhattan, to display instagram posts and neighborhoods.
-var map = L.mapbox.map('map').setView([40.775,-73.98], 12);
+var map = L.mapbox.map('map').setView([40.775,-73.98], 11);
 
 // Set base style of vector data
 function style(feature) {
@@ -20,7 +23,7 @@ function highlightFeature(layer) {
         fillColor: '#FEB24C'
     });
 
-    setTimeout(function() { resetHighlight(layer) }, 1000);
+    setTimeout(function() { resetHighlight(layer) }, PLAY_INTERVAL);
 }
 
 function resetHighlight(layer) {
@@ -52,9 +55,6 @@ function layerFromLatLng(latLng) {
 
 // Load Instagram data, draw the time plot, and start
 // "playing" instagram posts, highlighting the neighborhood of each post on the map.
-
-// interval in milliseconds
-var PLAY_INTERVAL = 1000;
 
 d3.tsv('nyc_sample.tsv', function(error, data) {
     instagram_data = data;
@@ -137,7 +137,7 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
             var neighborhood = layer.feature.properties.NTAName;
             document.getElementById("borough").innerText = borough;
             document.getElementById("neighborhood").innerText = neighborhood;
-            document.getElementById("image").innerHTML = "<img src='" + post.link_preview + "'>";
+            document.getElementById("image").innerHTML = "<img class='instagram_post' src='" + post.link_enclosure + "'>";
             console.log(post);
         }
 
