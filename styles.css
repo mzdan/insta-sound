@@ -9,3 +9,13 @@ body,
 .leaflet-top-pane {
     pointer-events: none;
 }
+
+#image {
+    height: 200px;
+    width: 200px;
+}
+
+#neighborhood {
+    padding-left: 50;
+    font-family: 'Quantico', sans-serif;
+}
