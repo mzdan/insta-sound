@@ -98,9 +98,7 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
         })
         .attr("y1", 0)
         .attr("y2", height)
-        .style("stroke", function(d) {
-            return d.color;
-        });
+        .style("stroke", "#000");
 
     svg.append("g")
         .attr("class", "x axis")
@@ -112,8 +110,6 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
     function playNextInstagramPost() {
 
         var post = instagram_data[i];
-        post.color = "#000";
-        setTimeout(function(){post.color = "#000";}, PLAY_INTERVAL);
 
         L.mapbox.markerLayer({
             // this feature is in the GeoJSON format: see geojson.org
