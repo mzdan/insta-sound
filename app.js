@@ -52,6 +52,45 @@ topLayer.setZIndex(7);
 function layerFromLatLng(latLng) {
     return leafletPip.pointInLayer(latLng, geojson)[0];
 }
+var boroughFrequencies = {
+    "Brooklyn" : 277.18,
+    "Bronx" : 329.63,
+    "Queens" : 349.23,
+    "Staten Island" : 392.00,
+    "Manhattan" : 440
+};
+
+/**
+ * Given a borough name, plays a note for about one second.
+ * @param borough
+ */
+function playBorough(borough) {
+
+    // Create a synth with two different channels.
+    // The left and the right channels are both sine waves,
+    // but slightly apart in frequency.
+    // This creates a stereo beating effect.
+    var synth = flock.synth({
+        synthDef: [
+            {
+                id: "leftSine",
+                ugen: "flock.ugen.sinOsc",
+                freq: boroughFrequencies[borough],
+                mul: 0.25
+            },
+            {
+                id: "rightSine",
+                ugen: "flock.ugen.sinOsc",
+                freq: boroughFrequencies[borough] + 4,
+                mul: 0.25
+            }
+        ]
+    });
+
+    synth.play();
+    setTimeout(function() { synth.pause() }, PLAY_INTERVAL);
+
+}
 
 // Load Instagram data, draw the time plot, and start
 // "playing" instagram posts, highlighting the neighborhood of each post on the map.
@@ -133,10 +172,14 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
         if(layer) {
             highlightFeature(layer);
             console.log(layer.feature.properties);
+
             var borough = layer.feature.properties.BoroName;
-            var neighborhood = layer.feature.properties.NTAName;
+            playBorough(borough);
             document.getElementById("borough").innerText = borough;
+
+            var neighborhood = layer.feature.properties.NTAName;
             document.getElementById("neighborhood").innerText = neighborhood;
+
             document.getElementById("image").innerHTML = "<img class='instagram_post' src='" + post.link_enclosure + "'>";
             console.log(post);
         }
@@ -156,3 +199,5 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
     playNextInstagramPost();
 
 });
+
+
