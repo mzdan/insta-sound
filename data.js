@@ -49,8 +49,10 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
 
 
     var i = 0;
-    function playInstagramPost() {
+    function playNextInstagramPost() {
+
         var post = instagram_data[i];
+
         L.mapbox.markerLayer({
             // this feature is in the GeoJSON format: see geojson.org
             // for the full specification
@@ -66,16 +68,21 @@ d3.tsv('nyc_sample.tsv', function(error, data) {
                 'marker-color': '#00a'
             }
         }).addTo(map);
+
         var ll = L.latLng(post.latitude, post.longitude);
         var layer = layerFromLatLng(ll);
+
         highlightFeature(layer);
+
         console.log(layer.feature.properties.NTAName)
+
         i++;
         if(i < instagram_data.length) {
-            setTimeout(playInstagramPost, 1000);
+            setTimeout(playNextInstagramPost, 1000);
         }
+
     }
 
-    playInstagramPost();
+    playNextInstagramPost();
 
 });

@@ -44,7 +44,3 @@ function layerFromLatLng(latLng) {
     return leafletPip.pointInLayer(latLng, geojson)[0];
 }
 
-function neighborhoodFromPoint(point) {
-    return layerFromLatLng(L.latLng(point)).feature.properties.NTAName;
-}
-
