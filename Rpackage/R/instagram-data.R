@@ -3,13 +3,28 @@
 #' @importFrom stringr str_split_fixed
 #' @export
 load_instagram_data <- function(path) {
-    read.csv(path, stringsAsFactors=FALSE, header=TRUE)
+    read.table(path, sep="\t", stringsAsFactors=FALSE, header=TRUE, fill=TRUE)
 }
 
 #' Prepare data.
 #' @param dat raw instagram data to transform
 #' @export
-prepare_instagram_data <- function(dat, format="%m/%d/%y %H:%M") {
+prepare_instagram_data <- function(dat) {
+
+    # Drop columns we're not using
+    drops <- c(
+        'category',
+        'content',
+        'link_alternate',
+        'link_avatar',
+        'link_self',
+        'matching_rule',
+        'rule',
+        'title',
+        'updated',
+        'uri'
+    )
+    dat <- dat[,!(names(dat) %in% drops)]
 
     # Prepare geographic variables
     coordinates <- str_split_fixed(dat$point, " ", 2)
@@ -21,7 +36,7 @@ prepare_instagram_data <- function(dat, format="%m/%d/%y %H:%M") {
 
     # Prepare temporal variables
     FOUR_HOURS <- 60 * 60 * 4 # correct for the difference between GMT and EDT
-    dat$published <- as.POSIXct(dat$published,format=format) - FOUR_HOURS
+    dat$published <- as.POSIXct(dat$published) - FOUR_HOURS
     dat$published_hour <- as.numeric(format(dat$published, "%H"))
     dat$published_date <- as.Date(dat$published)
     dat$published_date_factor <- as.factor(dat$published_date)
