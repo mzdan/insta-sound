@@ -49,6 +49,7 @@ prepare_instagram_data <- function(dat) {
 #' @param instagram_data e.g. loaded using load_instagram_data
 #' @export
 write_instagram_data <- function(instagram_data, path) {
+    instagram_data$published_date_factor <- NULL
     write.table(instagram_data, path, row.names=FALSE, sep="\t")
 }
 
