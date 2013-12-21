@@ -9,7 +9,7 @@ load_instagram_data <- function(path) {
 #' Prepare data.
 #' @param dat raw instagram data to transform
 #' @export
-prepare_instagram_data <- function(dat) {
+prepare_instagram_data <- function(dat, constrain=TRUE) {
 
     # Drop columns we're not using
     drops <- c(
@@ -26,14 +26,31 @@ prepare_instagram_data <- function(dat) {
     )
     dat <- dat[,!(names(dat) %in% drops)]
 
+    dat <- prepare_geographic(dat)
+    dat <- constrain_to_nyc(dat)
+    dat <- prepare_temporal(dat)
+
+    dat
+
+}
+
+#' Prepares all of the geographic variables.
+#' @param dat instagram_data e.g. loaded from raw CSV
+#' @export
+prepare_geographic <- function(dat) {
     # Prepare geographic variables
     coordinates <- str_split_fixed(dat$point, " ", 2)
     dat$latitude <- as.numeric(coordinates[,1])
     dat$longitude <- as.numeric(coordinates[,2])
     dat$point <- NULL
     dat <- dat[- which(is.na(dat$longitude)),]
-    dat <- constrain_to_nyc(dat)
+    dat
+}
 
+#' Prepares all of the temporal variables.
+#' @param dat instagram_data e.g. loaded from raw CSV
+#' @export
+prepare_temporal <- function(dat) {
     # Prepare temporal variables
     FOUR_HOURS <- 60 * 60 * 4 # correct for the difference between GMT and EDT
     dat$published <- as.POSIXct(dat$published) - FOUR_HOURS
@@ -41,8 +58,11 @@ prepare_instagram_data <- function(dat) {
     dat$published_date <- as.Date(dat$published)
     dat$published_date_factor <- as.factor(dat$published_date)
 
-    dat
+    # Add time differences in seconds
+    dat <- dat[with(dat, order(published)), ]
+    dat$difference <- c(0, diff(dat$published))
 
+    dat
 }
 
 #' Writes instagram data to a new TSV file.
