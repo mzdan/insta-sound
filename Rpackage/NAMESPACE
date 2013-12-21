@@ -1,3 +1,8 @@
+export(constrain_to_nyc)
 export(load_instagram_data)
+export(plot_instagram_exploration)
+export(plot_instagram_map)
+export(plot_ny_map)
+export(prepare_instagram_data)
 export(write_instagram_data)
 importFrom(stringr,str_split_fixed)

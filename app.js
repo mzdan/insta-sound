@@ -44,7 +44,7 @@ geojson = L.geoJson(neighborhoods, {
 var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
 var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
-topLayer.setZIndex(7);
+topLayer.setZIndex(5);
 
 /**
  * Retrieve a layer for a given LatLng.
@@ -54,6 +54,7 @@ topLayer.setZIndex(7);
 function layerFromLatLng(latLng) {
     return leafletPip.pointInLayer(latLng, geojson)[0];
 }
+
 var boroughFrequencies = {
     "Brooklyn" : 277.18,
     "Bronx" : 329.63,
@@ -98,7 +99,7 @@ function playBorough(borough) {
  * Draws a series of vertical lines corresponding to instagram posts.
  * @param data the instagram post data
  */
-function drawLineBar(data) {
+function drawLineBar() {
 
     // Line bar settings:
     var margin = {top: 30, right: 30, bottom: 30, left: 30},
@@ -114,28 +115,28 @@ function drawLineBar(data) {
 
     var format = d3.time.format("%b %e %H:%M");
 
-    var timeAxis = d3.svg.axis()
-        .scale(timeScale)
-        .ticks(3)
-        .tickFormat(format);
-
     var svg = d3.select('#timeseries').append('svg')
         .attr('width', width + margin.left + margin.right + 'px')
         .attr('height', height + margin.top + margin.bottom + 'px');
 
     svg.selectAll('.vline')
-        .data(data)
+        .data(instagram_data)
         .enter()
         .append('line')
         .attr("x1", function(d) {
             return margin.left + timeScale(d.publishedDate);
         })
+        .attr("y1", 0)
         .attr("x2", function(d) {
             return margin.left + timeScale(d.publishedDate);
         })
-        .attr("y1", 0)
         .attr("y2", height)
         .style("stroke", "#000");
+
+    var timeAxis = d3.svg.axis()
+        .scale(timeScale)
+        .ticks(3)
+        .tickFormat(format);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -161,7 +162,7 @@ function addMarker(post) {
         },
         properties: {
             'marker-size': 'small',
-            'marker-color': '#00a'
+            'marker-color': '#006'
         }
     }).addTo(map);
 }
@@ -172,6 +173,7 @@ function addMarker(post) {
  * Adds a marker, , highlighting the neighborhood, plays the borough note, and updates the image and text
  * for each instagram post.
  */
+var stop = false;
 function play() {
 
     var i = 0;
@@ -199,7 +201,7 @@ function play() {
         }
 
         i++;
-        if(i < instagram_data.length) {
+        if(i < instagram_data.length && !stop) {
             setTimeout(playNextInstagramPost, PLAY_INTERVAL);
         }
 
@@ -209,18 +211,19 @@ function play() {
 
 }
 
-// Load Instagram data, draw the time plot, and start
-// "playing" instagram posts.
-d3.tsv('nyc_sample.tsv', function(error, data) {
+function dataLoadingCallback (error, data) {
     instagram_data = data;
 
     data.forEach(function(d){
         d.publishedDate = new Date(d.published);
-        d.color = "#f00";
     });
 
-    drawLineBar(data);
+    drawLineBar();
     play();
 
-});
+}
+
+// Load Instagram data, draw the time plot, and start
+// "playing" instagram posts.
+d3.tsv('data/nyc_sample.tsv', dataLoadingCallback);
 
