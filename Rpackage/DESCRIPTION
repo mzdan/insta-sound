@@ -1,0 +1,13 @@
+Package: instasound
+Title: 
+Description: 
+Version: 0.1
+Authors: Yoni Ben-Meshulam
+Depends:
+    R (>= 3.0.1),
+    ggplot2,
+    stringr,
+    plyr,
+    rjson,
+    rgdal
+LazyData: true

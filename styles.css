@@ -1,0 +1,24 @@
+#map {
+    padding: 0;
+    margin: 0;
+    width: 400px;
+    height: 400px;
+}
+
+.leaflet-top-pane {
+    pointer-events: none;
+}
+
+.instagram_post {
+    width: 400px;
+    height: 400px;
+}
+
+#borough, #neighborhood {
+    font-family: 'Quantico', sans-serif;
+}
+
+#borough {
+    font-size: 40px
+}
+
