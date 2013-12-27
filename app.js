@@ -224,13 +224,34 @@ function neighborhoodFromPost(post) {
     }
 }
 
+function saveNeighborhoods() {
+
+    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+
+    window.requestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
+        fs.root.getFile('posts.csv', {create: true}, function(fileEntry) { // test.bin is filename
+            fileEntry.createWriter(function(fileWriter) {
+                var blob = new Blob([post_neighborhoods.join("\n")]);
+
+                fileWriter.addEventListener("writeend", function() {
+                    // navigate to file, will download
+                    location.href = fileEntry.toURL();
+                }, false);
+
+                fileWriter.write(blob);
+            }, function() {});
+        }, function() {});
+    }, function() {});
+
+}
+
 function dataLoadingCallback (error, data) {
     instagram_data = data;
 
     data.forEach(function(d){
-        d.publishedDate = new Date(d.published);
-//        d.neighborhood = neighborhoodFromPost(d);
+        d.neighborhood = neighborhoodFromPost(d);
     });
+    saveNeighborhoods();
 
 //    drawLineBar();
 //    play();

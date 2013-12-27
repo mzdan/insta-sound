@@ -18,7 +18,7 @@ plot_ny_map <- function(counties=c('kings', 'queens', 'new york', 'bronx', 'rich
 plot_instagram_map <- function(dat) {
 
     plot_ny_map() +
-        geom_point(data=dat, aes(x=longitude, y=latitude, color=published_hour), alpha=0.1, size=0.5)
+        geom_point(data=dat, aes(x=longitude, y=latitude, color=neighborhood), alpha=0.1, size=0.5)
 
 }
 
