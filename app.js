@@ -187,7 +187,6 @@ function play() {
 
         if(layer) {
             highlightFeature(layer);
-            console.log(layer.feature.properties);
 
             var borough = layer.feature.properties.BoroName;
             playBorough(borough);
@@ -197,7 +196,7 @@ function play() {
             document.getElementById("neighborhood").innerText = neighborhood;
 
             document.getElementById("image").innerHTML = "<img class='instagram_post' src='" + post.link_enclosure + "'>";
-            console.log(post);
+            document.getElementById("published").innerHTML =  post.published;
         }
 
         i++;
@@ -211,19 +210,30 @@ function play() {
 
 }
 
+
+// Load Instagram data, draw the time plot, and start
+// "playing" instagram posts.
+d3.tsv('data/nyc_instagram_data.tsv', dataLoadingCallback);
+
+function neighborhoodFromPost(post) {
+    var layer = layerFromLatLng(L.latLng(post.latitude, post.longitude));
+    if(layer) {
+        return layer.feature.properties.NTAName;
+    } else {
+        return '';
+    }
+}
+
 function dataLoadingCallback (error, data) {
     instagram_data = data;
 
     data.forEach(function(d){
         d.publishedDate = new Date(d.published);
+//        d.neighborhood = neighborhoodFromPost(d);
     });
 
-    drawLineBar();
-    play();
+//    drawLineBar();
+//    play();
 
 }
-
-// Load Instagram data, draw the time plot, and start
-// "playing" instagram posts.
-d3.tsv('data/nyc_sample.tsv', dataLoadingCallback);
 
