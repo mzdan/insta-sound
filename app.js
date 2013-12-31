@@ -15,6 +15,8 @@ function style(feature) {
 // Set hover colors
 function highlightFeature(e) {
     var layer = e.target;
+    document.getElementById('neighborhood_tod').innerHTML = "<img src='./images/tod_polar_" +
+        layer.feature.properties.NTAName + ".png' />";
     layer.setStyle({
         weight: 10,
         opacity: 1,
