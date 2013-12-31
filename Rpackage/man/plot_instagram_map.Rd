@@ -2,10 +2,10 @@
 \alias{plot_instagram_map}
 \title{Plot instagram map.}
 \usage{
-plot_instagram_map(dat)
+plot_instagram_map(posts)
 }
 \arguments{
-  \item{dat}{instagram data}
+  \item{posts}{instagram data}
 }
 \description{
 Plot instagram map.
