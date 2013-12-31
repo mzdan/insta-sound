@@ -12,8 +12,10 @@ function style(feature) {
     };
 }
 
+// Set hover colors
 function highlightFeature(e) {
-    e.target.setStyle({
+    var layer = e.target;
+    layer.setStyle({
         weight: 10,
         opacity: 1,
         color: '#09F',
@@ -23,8 +25,9 @@ function highlightFeature(e) {
     });
 }
 
+// A function to reset the colors when a neighborhood is not longer 'hovered'
 function resetHighlight(e) {
-    geojson.resetStyle(e.layer);
+    geojson.resetStyle(e.target);
 }
 
 // Tell MapBox.js what functions to call when mousing over and out of a neighborhood
@@ -35,18 +38,18 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// Add neighborhood vector data to map
+// Add vector data to map
 geojson = L.geoJson(neighborhoods, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
 
-// TODO: Sort this out. We shouldn't really need all of this layer Z-indexing.
 // Here is where the magic happens: Manipulate the z-index of tile layers,
 // this makes sure our vector data shows up above the background map and
 // under roads and labels.
 var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
 var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
-topLayer.setZIndex(5);
+topLayer.setZIndex(7);
+
 
