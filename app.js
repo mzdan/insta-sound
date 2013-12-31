@@ -55,4 +55,21 @@ var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
 topLayer.setZIndex(7);
 
+// Create a new synth consisting of a sine wave,
+// modulating its amplitude slowly with another sine wave.
+var synth = flock.synth({
+    synthDef: {
+        id: "carrier",
+        ugen: "flock.ugen.sinOsc",
+        freq: 440,
+        mul: {
+            id: "mod",
+            ugen: "flock.ugen.sinOsc",
+            freq: 1.0,
+            mul: 0.25
+        }
+    }
+});
+
+
 
