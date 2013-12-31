@@ -23,16 +23,22 @@ tod_formatter <- function(x) {
     x/60
 }
 
-#        theme(axis.line=element_blank(),
-##              axis.text.x=element_blank(),
-##              axis.text.y=element_blank(),
-#              axis.ticks.y =element_blank(),
-##              axis.title.x=element_blank(),
-##              axis.title.y=element_blank(),
-##              legend.position="none",
-#              panel.background=element_blank(),
-#              panel.border=element_blank(),
-##              panel.grid.major=element_blank(),
-##              panel.grid.minor=element_blank(),
-#              plot.background=element_blank())
+#' Generates a polar TOD plot for each neighborhood.
+#' @param posts instagram posts with neighborhoods
+#' @export
+plot_neighborhood_tod_polar <- function(posts) {
+    d_ply(
+        posts,
+        .(neighborhood),
+        function(d) {
+            neighborhood = d[1, 'neighborhood']
+            filename = sprintf('tod_polar_%s.png', neighborhood)
+            print(sprintf("Plotting: %s", filename))
+            path = file.path('../images/', filename)
+            png(path, width=800, height=800)
+            print(plot_tod_polar(d))
+            dev.off()
+        }
+    )
+}
 
