@@ -79,3 +79,16 @@ write_instagram_data <- function(instagram_data, path) {
 constrain_to_nyc <- function(dat) {
     dat[which(dat$longitude < -50 & dat$latitude > 40),]
 }
+
+
+#' Loads posts, including neighborhoods, and adds some derived values.
+#' @param path the path to the posts TSV file
+load_posts <- function(path) {
+    posts <- read.delim(path, stringsAsFactors=FALSE)
+    posts$published <- as.POSIXct(posts$published)
+    posts$published_lt <- as.POSIXlt(posts$published)
+    posts$published_tod <- posts$published_lt$hour * 60 + posts$published_lt$min
+    posts
+}
+
+
