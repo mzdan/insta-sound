@@ -23,8 +23,6 @@ function initializeInstaSound() {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
             if(validNeighborhoods.indexOf(neighborhood) > -1) {
-                d3.json('data/neighborhood_histogram/neighborhood_histogram_' + neighborhood + '.json',
-                    playNeighborhoodHistogram);
                 document.getElementById('neighborhood_tod').innerHTML = "<img src='./images/tod_polar_" +
                     neighborhood + ".png' />";
                 layer.setStyle({
@@ -38,6 +36,16 @@ function initializeInstaSound() {
             }
         }
 
+        function queueNeighborhoodAudio(e) {
+            var layer = e.target;
+            var neighborhood = layer.feature.properties.NTAName;
+            console.log(neighborhood);
+            if(validNeighborhoods.indexOf(neighborhood) > -1) {
+                d3.json('data/neighborhood_histogram/neighborhood_histogram_' + neighborhood + '.json',
+                    playNeighborhoodHistogram);
+            }
+        }
+
         // A function to reset the colors when a neighborhood is not longer 'hovered'
         function resetHighlight(e) {
             geojson.resetStyle(e.target);
@@ -47,7 +55,8 @@ function initializeInstaSound() {
         function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHighlight
+                mouseout: resetHighlight,
+                click: queueNeighborhoodAudio
             });
         }
 
