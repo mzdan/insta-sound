@@ -80,11 +80,18 @@ function initializeInstaSound() {
         initializeMap();
     });
 
+    clock = flock.scheduler.async();
+
+    var synth = undefined;
+
     function playNeighborhoodHistogram(error, neighborhoodHistogram) {
 
-        // Frequency Stair Stepping Demo
-        var clock = flock.scheduler.async();
-        var synth = flock.synth({
+
+        if(synth) {
+            synth.pause();
+        }
+
+        synth = flock.synth({
             nickName: "sin-synth",
             synthDef: {
                 id: "carrier",
@@ -112,6 +119,7 @@ function initializeInstaSound() {
         var frequencies = interpolatedCounts.map(frequencyScale)
         var note_time = PLAY_TIME/frequencies.length;
 
+        clock.clearAll();// Clears any previously scheduled audio.
         clock.schedule([
             {
                 interval: "repeat",
@@ -122,7 +130,6 @@ function initializeInstaSound() {
                         "carrier.freq": {
                             synthDef: {
                                 ugen: "flock.ugen.sequence",
-                                loop: 1.0,
                                 list: frequencies
                             }
                         }
@@ -144,6 +151,7 @@ function initializeInstaSound() {
         ]);
 
         synth.play();
+
     }
 
 
@@ -155,7 +163,6 @@ function initializeInstaSound() {
  * @returns {Array}
  */
 function interpolateValues(values) {
-    console.log(values);
     var result = [];
     for(var i = 0; i < values.length - 1; i++) {
         result.push(values[i]);
