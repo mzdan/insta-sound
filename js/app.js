@@ -39,7 +39,6 @@ function initializeInstaSound() {
         function queueNeighborhoodAudio(e) {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
-            console.log(neighborhood);
             if(validNeighborhoods.indexOf(neighborhood) > -1) {
                 d3.json('data/neighborhood_histogram/neighborhood_histogram_' + neighborhood + '.json',
                     playNeighborhoodHistogram);
@@ -77,7 +76,6 @@ function initializeInstaSound() {
     }
 
     d3.json('data/valid_neighborhoods.json', function(error, validNeighborhoods) {
-        console.log("Valid neighborhoods: ", validNeighborhoods);
         window.validNeighborhoods = validNeighborhoods;
         initializeMap();
     });
