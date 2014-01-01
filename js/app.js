@@ -11,15 +11,8 @@
         function highlightNeighborhood(e) {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
-            var borough = layer.feature.properties.BoroName;
 
             if(instasound.validNeighborhoods.indexOf(neighborhood) > -1) {
-
-                document.getElementById('neighborhood_tod').innerHTML =
-                    "<img class='hist_img' src='./images/tod_polar_" + neighborhood + ".png' />";
-
-                document.getElementById('borough').innerText = borough;
-                document.getElementById('neighborhood').innerText = neighborhood;
 
                 layer.setStyle({
                     weight: 10,
@@ -41,6 +34,14 @@
         function queueNeighborhoodAudio(e) {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
+            var borough = layer.feature.properties.BoroName;
+
+            document.getElementById('neighborhood_tod').innerHTML =
+                "<img class='hist_img' src='./images/tod_polar_" + neighborhood + ".png' />";
+
+            document.getElementById('borough').innerText = borough;
+            document.getElementById('neighborhood').innerText = neighborhood;
+
             if(instasound.validNeighborhoods.indexOf(neighborhood) > -1) {
                 d3.json('data/neighborhood_histogram/neighborhood_histogram_' + neighborhood + '.json',
                     playNeighborhoodHistogram);
