@@ -11,11 +11,15 @@
         function highlightNeighborhood(e) {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
+            var borough = layer.feature.properties.BoroName;
 
             if(instasound.validNeighborhoods.indexOf(neighborhood) > -1) {
 
-                document.getElementById('neighborhood_tod').innerHTML = "<img class='hist_img' src='./images/tod_polar_" +
-                    neighborhood + ".png' />";
+                document.getElementById('neighborhood_tod').innerHTML =
+                    "<img class='hist_img' src='./images/tod_polar_" + neighborhood + ".png' />";
+
+                document.getElementById('borough').innerText = borough;
+                document.getElementById('neighborhood').innerText = neighborhood;
 
                 layer.setStyle({
                     weight: 10,
@@ -198,8 +202,8 @@
 
             // Attach some variables to the main namespace for use in debugging.
             window.instasound = {
-                // Initialize Flocking.js clock and synth. We need these to be shared across plays so that we can start/stop
-                // the synth.
+                // Initialize Flocking.js clock and synth. We need these to be shared across plays so that we can
+                // start/stop the synth.
                 clock: flock.scheduler.async(),
                 synth: undefined,
                 validNeighborhoods: data,
