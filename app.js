@@ -55,21 +55,67 @@ var topLayer = L.mapbox.tileLayer('bobbysud.map-3inxc2p4').addTo(map);
 topPane.appendChild(topLayer.getContainer());
 topLayer.setZIndex(7);
 
-// Create a new synth consisting of a sine wave,
-// modulating its amplitude slowly with another sine wave.
-var synth = flock.synth({
-    synthDef: {
-        id: "carrier",
-        ugen: "flock.ugen.sinOsc",
-        freq: 440,
-        mul: {
-            id: "mod",
+
+function dataLoadingCallback(error, neighborhoodHistogram) {
+    console.log(neighborhoodHistogram);
+    nhist = neighborhoodHistogram;
+
+    // Frequency Stair Stepping Demo
+    var clock = flock.scheduler.async();
+    var synth = flock.synth({
+        nickName: "sin-synth",
+        synthDef: {
+            id: "carrier",
             ugen: "flock.ugen.sinOsc",
-            freq: 1.0,
-            mul: 0.25
+            freq: 220,
+            mul: {
+                ugen: "flock.ugen.line",
+                start: 0,
+                end: 0.25,
+                duration: 1.0
+            }
         }
-    }
-});
+    });
 
+    var frequencyScale = d3.scale.linear()
+        .domain(neighborhoodHistogram.counts)
+        .range([40, 600])
 
+    var frequencies = neighborhoodHistogram.counts.map(frequencyScale)
+
+    clock.schedule([
+        {
+            interval: "repeat",
+            time: 0.1,
+            change: {
+                synth: "sin-synth",
+                values: {
+                    "carrier.freq": {
+                        synthDef: {
+                            ugen: "flock.ugen.sequence",
+                            list: frequencies
+                        }
+                    }
+                }
+            }
+        },
+
+        {
+            interval: "once",
+            time: 8,
+            change: {
+                synth: "sin-synth",
+                values: {
+                    "carrier.mul.start": 0.25,
+                    "carrier.mul.end": 0.0,
+                    "carrier.mul.duration": 0.1
+                }
+            }
+        }
+    ]);
+
+    synth.play();
+}
+
+d3.json('data/neighborhood_histogram/neighborhood_histogram_Chinatown.json', dataLoadingCallback);
 
