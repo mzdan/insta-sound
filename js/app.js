@@ -81,7 +81,6 @@ function initializeInstaSound() {
     });
 
     function playNeighborhoodHistogram(error, neighborhoodHistogram) {
-        nhist = neighborhoodHistogram;
 
         // Frequency Stair Stepping Demo
         var clock = flock.scheduler.async();
@@ -90,33 +89,40 @@ function initializeInstaSound() {
             synthDef: {
                 id: "carrier",
                 ugen: "flock.ugen.sinOsc",
-                freq: 220,
                 mul: {
                     ugen: "flock.ugen.line",
-                    start: 0,
-                    end: 0.25,
+                    start: 0.5,
+                    end: 0.5,
                     duration: 1.0
                 }
             }
         });
 
-        var counts = neighborhoodHistogram.counts;
-        var frequencyScale = d3.scale.linear()
-            .domain([d3.min(counts),d3.max(counts)])
-            .range([40, 600])
+        var neighborhoodCounts = neighborhoodHistogram.counts;
+        var interpolatedCounts = interpolateValues(neighborhoodCounts);
 
-        var frequencies = counts.map(frequencyScale)
+        var PLAY_TIME = 6;
+        var MIN_FREQUENCY = 80;
+        var MAX_FREQUENCY = 800;
+
+        var frequencyScale = d3.scale.linear()
+            .domain([d3.min(interpolatedCounts),d3.max(interpolatedCounts)])
+            .range([MIN_FREQUENCY, MAX_FREQUENCY])
+
+        var frequencies = interpolatedCounts.map(frequencyScale)
+        var note_time = PLAY_TIME/frequencies.length;
 
         clock.schedule([
             {
                 interval: "repeat",
-                time: 0.1,
+                time: note_time,
                 change: {
                     synth: "sin-synth",
                     values: {
                         "carrier.freq": {
                             synthDef: {
                                 ugen: "flock.ugen.sequence",
+                                loop: 1.0,
                                 list: frequencies
                             }
                         }
@@ -125,13 +131,13 @@ function initializeInstaSound() {
             },
             {
                 interval: "once",
-                time: 8,
+                time: PLAY_TIME,
                 change: {
                     synth: "sin-synth",
                     values: {
                         "carrier.mul.start": 0.25,
                         "carrier.mul.end": 0.0,
-                        "carrier.mul.duration": 0.1
+                        "carrier.mul.duration": note_time
                     }
                 }
             }
@@ -143,6 +149,22 @@ function initializeInstaSound() {
 
 }
 
+/**
+ * Create the feeling of continuous change by using linear interpolation of values.
+ * @param values
+ * @returns {Array}
+ */
+function interpolateValues(values) {
+    console.log(values);
+    var result = [];
+    for(var i = 0; i < values.length - 1; i++) {
+        result.push(values[i]);
+        var interpolatedValues = d3.range(0.1, 0.9, 0.1).map(d3.interpolate(values[i], values[i + 1]));
+        result = result.concat(interpolatedValues);
+    }
+    result.push(values[values.length - 1]);
+    return result;
+}
 
 window.onload = function() {
     initializeInstaSound();
