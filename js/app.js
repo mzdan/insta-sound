@@ -5,7 +5,7 @@ function initializeInstaSound() {
 
     function initializeMap() {
         // Create a map, centered on Manhattan, to display instagram posts and neighborhoods.
-        var MAP_CENTER = [40.775,-73.98];
+        var MAP_CENTER = [40.755,-73.92];
         var MAP_ZOOM = 11;
         var map = L.mapbox.map('nyc_map').setView(MAP_CENTER, MAP_ZOOM);
 
@@ -13,8 +13,8 @@ function initializeInstaSound() {
         function style(feature) {
             return {
                 weight: 0,
-                fillOpacity: 0.5,
-                fillColor: '#FFEDA0'
+                fillOpacity: 0.4,
+                fillColor: '#FFEEA0'
             };
         }
 
@@ -23,15 +23,15 @@ function initializeInstaSound() {
             var layer = e.target;
             var neighborhood = layer.feature.properties.NTAName;
             if(validNeighborhoods.indexOf(neighborhood) > -1) {
-                document.getElementById('neighborhood_tod').innerHTML = "<img src='./images/tod_polar_" +
+                document.getElementById('neighborhood_tod').innerHTML = "<img class='hist_img' src='./images/tod_polar_" +
                     neighborhood + ".png' />";
                 layer.setStyle({
                     weight: 10,
                     opacity: 1,
-                    color: '#09F',
-                    dashArray: '3',
+                    color: '#03F',
+                    dashArray: '2',
                     fillOpacity: 0.7,
-                    fillColor: '#FEB24C'
+                    fillColor: '#05F'
                 });
             }
         }

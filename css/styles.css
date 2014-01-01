@@ -1,8 +1,8 @@
-#map {
+#nyc_map {
     padding: 0;
     margin: 0;
-    width: 400px;
-    height: 400px;
+    width: 720px;
+    height: 720px;
 }
 
 .leaflet-top-pane {
@@ -25,9 +25,10 @@
 #neighborhood_tod {
 	width: 400px;
     height: 400px;
+	display: block;
 }
 
-#histogram {
+.hist_img {
 	width: 400px;
     height: 400px;
 }
