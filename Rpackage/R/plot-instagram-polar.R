@@ -35,9 +35,8 @@ plot_neighborhood_tod_polar <- function(posts) {
             filename = sprintf('tod_polar_%s.png', neighborhood)
             print(sprintf("Plotting: %s", filename))
             path = file.path('../images/', filename)
-            png(path, width=800, height=800)
-            print(plot_tod_polar(d))
-            dev.off()
+            p <- plot_tod_polar(d)
+            ggsave(path, p)
         }
     )
 }
