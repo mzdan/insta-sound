@@ -37,7 +37,6 @@
 
         <!-- Logo -->
         <div id="logo">
-            <span class="image avatar48"><img src="images/nyc_map_tod.png" alt="" /></span>
             <h1 id="title">Synthstagram</h1>
             <span class="byline">Using sound and visualization to explore Instagram posts in NYC</span>
         </div>
@@ -45,9 +44,10 @@
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Posts by location and time</span></a></li>
+                <li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Instagram frequency and location</span></a></li>
                 <li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">How we explored the data</span></a></li>
-                <li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="fa fa-envelope">Contact</span></a></li>
+				<li><a href="#portfolio" id="portfolio-link" class="skel-panels-ignoreHref"><span class="fa fa-th">The sound of a </br>neighborhood</span></a></li>
+                <li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="fa fa-envelope">Project credits</span></a></li>
             </ul>
         </nav>
 
@@ -57,9 +57,8 @@
 
         <!-- Social Icons -->
         <ul class="icons">
-            <li><a href="#" class="fa fa-twitter solo"><span>Twitter</span></a></li>
-            <li><a href="#" class="fa fa-github solo"><span>Github</span></a></li>
-            <li><a href="#" class="fa fa-envelope solo"><span>Email</span></a></li>
+            <li><a href="https://github.com/mzdan/insta-sound" class="fa fa-github solo"><span>Github</span></a></li>
+            <li><a href="mailto:marisa.plumb@gmail.com" class="fa fa-envelope solo"><span>Email</span></a></li>
         </ul>
 
     </div>
@@ -81,7 +80,7 @@
             </header>
             
             <footer>
-                <a href="neighborhood_sounds.html" class="button scrolly">See and hear the results</a>
+                <a href="#portfolio" class="button scrolly">See and hear the results</a>
             </footer>
 
         </div>
@@ -95,28 +94,42 @@
                 <h2>How we explored the data</h2>
             </header>
 
-            <a href="" class="image featured"><img src="images/nyc_neighborhood_tod_polar_exploration.png" alt="" /></a>
-
            	<p>This project began as a curiosity about using data to render sonic compositions — ideally ones that represent patterns in large quantities of social data.</p>
 		
-			<a href="" class="image featured"><img src="images/nyc_map_tod.png" alt="" /></a>
+			<a href="images/post_hour.png" class="image featured"><img src="images/post_hour.png" alt="" /></a>
+			
+            <a href="images/nyc_neighborhood_tod_polar_exploration.png" class="image featured"><img src="images/nyc_neighborhood_tod_polar_exploration.png" alt="" /></a>
+
+        </div>
+    </section>
+
+	<!-- Portfolio -->
+
+    <section id="portfolio" class="two">
+        <div class="container">
+
+            <header>
+                <h2>Explorations by neighborhood</h2>
+            </header>
+            <div id="map_title">Click on a neighborhood to see a histogram of </div>
+
+			<p><span id="borough"></span></p>
+            <p><span id="neighborhood"></span></p>
+            <div id="nyc_map"></div>
+            
+            <div id="neighborhood_tod"></div>
+            <br />
+            <div id="histogram"></div>
+			 <a class="image featured"><img src="images/nyc_tod_polar.png" alt="" /></a>
+         
+            </div>
 
         </div>
     </section>
 
     <!-- Contact -->
     <section id="contact" class="four">
-        <div class="container">
-
-            <header>
-                <h2>Contact</h2>
-            </header>
-
-            <p>If you'd like to know more about how this project was done, the data that was used, or our general thoughts about the future of the universe, please contact us or connect via a social channel or by email.</p>
-
-            
-
-        </div>
+       
     </section>
 
 </div>
@@ -125,6 +138,12 @@
 <div id="footer">
 
     <!-- Copyright -->
+	 <header>
+            <h2>Who</h2>
+        </header>
+		
+		<p>This project began as a curiosity about using data to render sonic compositions — ideally ones that represent patterns in large quantities of social data.</p>
+
     <div class="copyright">
         <p>&copy; 2013 Marisa Plumb and Yoni Ben-Meshulam.</p>
         <ul class="menu">
