@@ -1,8 +1,24 @@
+
+#map_title {
+	float: left;
+    font-size: 20px
+}
+#borough, #neighborhood {
+	float: right;
+    font-family: 'Quantico', sans-serif;
+}
+
+#borough {
+    font-size: 2px;
+	visibility:hidden;
+}
 #nyc_map {
-    padding: 0;
+    clear: both;
+	padding: 0;
     margin: 0;
-    width: 720px;
-    height: 720px;
+    width: 400px;
+    height: 400px;
+	float: left;
 }
 
 .leaflet-top-pane {
@@ -14,21 +30,16 @@
     height: 400px;
 }
 
-#borough, #neighborhood {
-    font-family: 'Quantico', sans-serif;
-}
 
-#borough {
-    font-size: 40px
-}
 
 #neighborhood_tod {
 	width: 400px;
     height: 400px;
-	display: block;
+	float: right;
 }
 
 .hist_img {
+	float: right;
 	width: 400px;
     height: 400px;
 }

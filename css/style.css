@@ -1093,6 +1093,7 @@
 	#main
 	{
 		margin-left: 375px;
+		max-width:900px;
 	}
 	
 		#main > section
