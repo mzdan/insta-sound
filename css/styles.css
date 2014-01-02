@@ -22,6 +22,12 @@
     height: 400px;
 	float: left;
 }
+#nyc_map2 {
+    clear: both;
+	padding: 0;
+    margin: 0;
+	float: left;
+}
 
 .leaflet-top-pane {
     pointer-events: none;
