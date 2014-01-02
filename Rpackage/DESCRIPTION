@@ -10,6 +10,5 @@ Depends:
     ggplot2,
     stringr,
     plyr,
-    rjson,
-    rgdal
+    rjson
 LazyData: true
