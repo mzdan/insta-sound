@@ -208,7 +208,7 @@
                 clock: flock.scheduler.async(),
                 synth: undefined,
                 validNeighborhoods: data,
-                PLAY_TIME_SECONDS : 6,
+                PLAY_TIME_SECONDS : 12,
                 MIN_FREQUENCY : 80,
                 MAX_FREQUENCY : 800
             };
