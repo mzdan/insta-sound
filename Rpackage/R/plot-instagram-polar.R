@@ -12,6 +12,7 @@ plot_tod_polar <- function(posts) {
             breaks=seq(0, 24*60 - 1, by = 6*60)
         ) +
         theme(
+            text = element_text(size=20),
             axis.ticks = element_blank(),
             axis.text.y = element_blank(),
             axis.title=element_blank()
@@ -36,7 +37,7 @@ plot_neighborhood_tod_polar <- function(posts) {
             print(sprintf("Plotting: %s", filename))
             path = file.path('../images/', filename)
             p <- plot_tod_polar(d)
-            ggsave(path, p)
+            ggsave(path, p, width=4, height=4)
         }
     )
 }
