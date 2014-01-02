@@ -38,14 +38,14 @@
         <!-- Logo -->
         <div id="logo">
             <h1 id="title">Synthstagram</h1>
-            <span class="byline">Using sound and visualization to explore Instagram posts in NYC</span>
+            <span class="byline">Using sound and visualization to explore social media activity in NYC</span>
         </div>
 
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Instagram frequency and location</span></a></li>
-                <li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">How we explored the data</span></a></li>
+                <li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Instagram in NYC</span></a></li>
+                <li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">Exploring the data</span></a></li>
 				<li><a href="#portfolio" id="portfolio-link" class="skel-panels-ignoreHref"><span class="fa fa-th">The sound of a </br>neighborhood</span></a></li>
                 <li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="fa fa-envelope">Project credits</span></a></li>
             </ul>
@@ -79,10 +79,6 @@
                 <h2 class="alt"><strong>What did they sound like?</strong></h2>
             </header>
             
-            <footer>
-                <a href="#portfolio" class="button scrolly">See and hear the results</a>
-            </footer>
-
         </div>
     </section>
 
@@ -91,14 +87,18 @@
         <div class="container">
 
             <header>
-                <h2>How we explored the data</h2>
+                <h2>Exploring the data</h2>
             </header>
 
-           	<p>This project began as a curiosity about using data to render sonic compositions — ideally ones that represent patterns in large quantities of social data.</p>
-		
+           	<p>Our initial motivation was to use data to generate sonic compositions&mdash;ideally ones that represent patterns in large quantities of social data. Sonification, as a way to perceptualize information, can be a challenging way to convey meaning. Therefore, before we mapped any of our data to sound, we explored simple parameters and demensions of our dataset&mdash;like geo-coordinates and timestamps&mdash;to understand meaningful differences in Instagram usage across New York City. We focused on understanding neighborhoods in New York, as well as the time of day that Instagram posts were made in each area.</p>
+			<p>In the chart below, you can see that there is a wide range in how many posts occur in different neighborhoods in the city:</p>
+			<a href="images/post_hour.png" class="image featured"><img src="images/posts_per_neighborhood.png" alt="" /></a>
+			<p>Looking more closely at the total volume of posts, we confirmed clear areas of post density, as well as areas that had more nighttime activity than others. The dots here get lighter as the day progresses&mdash;the darkest dots are posts that occurred just after midnight, and the lightest dots occurred late in the evening on the same day.</p>
 			<a href="images/post_hour.png" class="image featured"><img src="images/post_hour.png" alt="" /></a>
+			<p>A secondary way of seeing the density of posts over a single average day:</p>
+			<a href="images/post_hour.png" class="image featured"><img src="images/published_hour.png" alt="" /></a>
 			
-            
+            To better understand these density distributions, and to see if they varied widely from neighborhood to neighborhood, we looked at the volume of Instagram posts for specific areas, using MapBox and a "point-in-polygon" algorithm. We found that each neighborhood had a unique density signature, and chose to sonify this signature. By taking a week of Instagram data from October, we created histograms of posts over an average day. The frequency of the sound we used increases when then density of Instagram posts increases. Explore the results in the next section: 
 
         </div>
     </section>
@@ -109,7 +109,7 @@
         <div class="container">
 
             <header>
-                <h2>Explorations by neighborhood</h2>
+                <h2>The sound of a neighborhood</h2>
             </header>
             <div id="map_title">Click on a neighborhood to see and hear its histogram</div>
 
@@ -125,9 +125,7 @@
 
 			 <a class="image featured"><img src="images/nyc_tod_polar.png" alt="" /></a>
          
-			<div id="map_title">Here is a grid of all the histogram outlines. The thumb-like component of the histograms could be said to represent the neighborhood's nightlife&mdash;a more pronounced thumb represents more Instagram activity between midnight and 3AM.</div>
-			<a href="images/nyc_neighborhood_tod_polar_exploration.png" class="image featured"><img src="images/nyc_neighborhood_tod_polar_exploration.png" alt="" /></a>			
-            </div>
+			
 
         </div>
     </section>
@@ -147,7 +145,7 @@
             <h2>Who</h2>
         </header>
 		
-		<p>This project was conceptualized and coded by Marisa Plumb and Yoni Ben-Meshulam. Credit for the data used goes to CUNY Grad Center and GNIP. The visualizations were created with R, and MapBox was used to create the neighborhood map.</p>
+		<p>This project was conceptualized and coded by Marisa Plumb and Yoni Ben-Meshulam. Credit for the data used goes to CUNY Grad Center and GNIP&mdash;resources orchestrated by Lev Manovich. The visualizations were created with R, and MapBox was used to create the neighborhood map.</p>
 
     <div class="copyright">
         <p>&copy; 2013 Marisa Plumb and Yoni Ben-Meshulam.</p>
