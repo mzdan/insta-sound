@@ -5,9 +5,9 @@
 	line-height: 29px;
 	color: #575757;
 }
+
 #borough, #neighborhood {
 	float: right;
-    font-family: 'Quantico', sans-serif;
 }
 
 #borough {
