@@ -35,7 +35,7 @@ plot_neighborhood_tod_polar <- function(posts) {
             neighborhood = d[1, 'neighborhood']
             filename = sprintf('tod_polar_%s.png', neighborhood)
             print(sprintf("Plotting: %s", filename))
-            path = file.path('../images/', filename)
+            path = file.path('..', 'images', 'tod_polar', filename)
             p <- plot_tod_polar(d)
             ggsave(path, p, width=4, height=4)
         }
