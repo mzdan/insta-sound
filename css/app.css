@@ -14,6 +14,7 @@
     font-size: 2px;
 	visibility:hidden;
 }
+
 #nyc_map {
     clear: both;
 	padding: 0;
@@ -22,6 +23,7 @@
     height: 400px;
 	float: left;
 }
+
 #nyc_map2 {
     clear: both;
 	padding: 0;
@@ -37,8 +39,6 @@
     width: 400px;
     height: 400px;
 }
-
-
 
 #neighborhood_tod {
 	width: 400px;
