@@ -10,4 +10,8 @@ plot_top_users_map(posts)
 \description{
 Plots top user posts geographically.
 }
+\examples{
+data(posts_sample)
+plot_top_users_map(posts_sample)
+}
 

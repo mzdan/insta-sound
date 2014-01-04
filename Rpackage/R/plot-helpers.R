@@ -1,5 +1,7 @@
 #' Creates an empty theme.
 #' @export
+#' @examples
+#' ggplot(data.frame(x=c(1,2,3), y=c(1,2,3)), aes(x,y)) + geom_point() + empty_theme()
 empty_theme <- function() {
     theme(axis.line=element_blank(),
           axis.text.x=element_blank(),

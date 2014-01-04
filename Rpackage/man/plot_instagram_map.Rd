@@ -10,4 +10,8 @@ plot_instagram_map(posts)
 \description{
 Plot instagram map.
 }
+\examples{
+data(posts_sample)
+plot_instagram_map(posts_sample)
+}
 

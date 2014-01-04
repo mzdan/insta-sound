@@ -1,5 +1,8 @@
 #' Creates a plot of New York City, based on the five counties corresponding to the five boroughs.
+#' @param counties which NYC counties to include. Defaults to all five borough counties.
 #' @export
+#' @examples
+#' plot_ny_map()
 plot_ny_map <- function(counties=c('kings', 'queens', 'new york', 'bronx', 'richmond')) {
 
     county_df <- map_data('county')  #mappings of counties by state
@@ -15,25 +18,35 @@ plot_ny_map <- function(counties=c('kings', 'queens', 'new york', 'bronx', 'rich
 #' Plot instagram map.
 #' @param posts instagram data
 #' @export
+#' @examples
+#' data(posts_sample)
+#' plot_instagram_map(posts_sample)
 plot_instagram_map <- function(posts) {
 
     plot_ny_map() +
-        geom_point(data=dat, aes(x=longitude, y=latitude, color=neighborhood), alpha=0.1, size=0.5)
+        geom_point(data=posts, aes(x=longitude, y=latitude, color=neighborhood), alpha=0.1, size=0.5)
 
 }
 
 #' Plots instagram map with no geographic map underneath.
 #' @param posts instagram posts
 #' @export
+#' @examples
+#' data(posts_sample)
+#' plot_instagram_points(posts_sample)
 plot_instagram_points <- function(posts) {
     ggplot(posts, aes(x=longitude, y=latitude), alpha=0.5, size=0.0001) +
         geom_point() +
-        coord_map()
+        coord_map() +
+        empty_theme()
 }
 
 #' Plots an instagram map with no geographic map underneath, and with the average location.
 #' @param posts instagram posts
 #' @export
+#' @examples
+#' data(posts_sample)
+#' plot_instagram_points_with_average(posts_sample)
 plot_instagram_points_with_average <- function(posts) {
     avg_latitude = mean(posts$latitude)
     avg_longitude = mean(posts$longitude)

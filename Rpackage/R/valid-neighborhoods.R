@@ -1,7 +1,12 @@
 #' Stores the list of valid neighborhoods in a JSON file.
+#' @param posts instagram posts
 #' @param path in which to store the file
 #' @export
-valid_neighborhoods <- function(path='../data/valid_neighborhoods.json') {
+#' @examples
+#' data(posts_sample)
+#' valid_neighborhoods(posts_sample, tempdir())
+valid_neighborhoods <- function(posts, path) {
     neighborhoods <- unique(as.character(posts$neighborhood))
-    write(toJSON(neighborhoods), '../data/valid_neighborhoods.json')
+    filepath <- file.path(path, 'valid_neighborhoods.json')
+    write(toJSON(neighborhoods), filepath)
 }

@@ -1,3 +1,6 @@
+# Several early-phase data loading and cleaning methods. Most of these should not be used directly, rather
+# the package data should be used, instead.
+
 #' Loads the source instagram data and constrains it to the fields we care about.
 #' @param path the path to the instagram data
 #' @importFrom stringr str_split_fixed
@@ -9,7 +12,7 @@ load_instagram_data <- function(path) {
 #' Prepare data.
 #' @param dat raw instagram data to transform
 #' @export
-prepare_instagram_data <- function(dat, constrain=TRUE) {
+prepare_instagram_data <- function(dat) {
 
     # Drop columns we're not using
     drops <- c(
@@ -67,6 +70,7 @@ prepare_temporal <- function(dat) {
 
 #' Writes instagram data to a new TSV file.
 #' @param instagram_data e.g. loaded using load_instagram_data
+#' @param path in which to store the data
 #' @export
 write_instagram_data <- function(instagram_data, path) {
     instagram_data$published_date_factor <- NULL
@@ -75,6 +79,7 @@ write_instagram_data <- function(instagram_data, path) {
 
 
 #' Constrains data to the New York City area (i.e. removes bad data).
+#' @param dat data containing geographic coordinates
 #' @export
 constrain_to_nyc <- function(dat) {
     dat[which(dat$longitude < -50 & dat$latitude > 40),]
@@ -83,11 +88,13 @@ constrain_to_nyc <- function(dat) {
 
 #' Loads posts, including neighborhoods, and adds some derived values.
 #' @param path the path to the posts TSV file
+#' @export
 load_posts <- function(path) {
     posts <- read.delim(path, stringsAsFactors=FALSE)
     posts$published <- as.POSIXct(posts$published)
     posts$published_lt <- as.POSIXlt(posts$published)
     posts$published_tod <- posts$published_lt$hour * 60 + posts$published_lt$min
+    posts$published_lt <- NULL
     posts
 }
 

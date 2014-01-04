@@ -10,4 +10,8 @@ plot_instagram_points(posts)
 \description{
 Plots instagram map with no geographic map underneath.
 }
+\examples{
+data(posts_sample)
+plot_instagram_points(posts_sample)
+}
 

@@ -4,7 +4,7 @@ Description: Data loading, cleansing, and analysis for Instagram posts in NYC.
 Version: 0.1
 Maintainer: Yoni Ben-Meshulam <yoni.bmesh@gmail.com>
 Author: Yoni Ben-Meshulam <yoni.bmesh@gmail.com>
-License: MIT
+License: MIT + file LICENSE
 Depends:
     R (>= 3.0.1),
     ggplot2,

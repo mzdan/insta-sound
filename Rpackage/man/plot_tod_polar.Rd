@@ -10,4 +10,8 @@ plot_tod_polar(posts)
 \description{
 Plots instagram.
 }
+\examples{
+data(posts_sample)
+plot_tod_polar(posts_sample)
+}
 
