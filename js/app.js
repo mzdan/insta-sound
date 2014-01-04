@@ -37,7 +37,7 @@
             var borough = layer.feature.properties.BoroName;
 
             document.getElementById('neighborhood_tod').innerHTML =
-                "<img class='hist_img' src='./images/tod_polar/tod_polar_" + neighborhood + ".png' />";
+                "<img class='hist_img' src='./images/neighborhoods/" + neighborhood + "/tod_polar.png' />";
 
             document.getElementById('borough').innerText = borough;
             document.getElementById('neighborhood').innerText = neighborhood;

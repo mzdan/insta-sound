@@ -7,12 +7,29 @@
 #' temporary_path <- tempdir()
 #' plot_field_densities(posts_sample, temporary_path)
 plot_field_densities <- function(posts, path) {
-    for(field in c('published', 'published_date', 'published_hour', 'latitude', 'longitude')) {
-        image_path <- file.path(path, sprintf('%s.png', field))
+
+    plot_field <- function(field_name, plot_to_save) {
+        image_path <- file.path(path, sprintf('%s.png', field_name))
         print(sprintf("Plotting %s", image_path))
-        png(image_path)
-        print(ggplot(posts, aes_string(x=field)) + geom_density())
-        dev.off()
+        ggsave(filename=image_path, plot=plot_to_save, height=6, width=6)
     }
+
+    for(field in c('published', 'latitude', 'longitude')) {
+        p <- ggplot(posts, aes_string(x=field)) +
+            geom_density()
+
+        plot_field(field, p)
+    }
+
+    p <- ggplot(posts, aes(x=published_tod/60)) +
+        geom_density() +
+        scale_x_continuous(
+            breaks=c(0, 6, 12, 18, 24),
+            labels=c("midnight", "6am", "noon", "6pm", "midnight")
+        ) +
+        xlab('time of day')
+
+    plot_field('time_of_day', p)
+
 }
 
