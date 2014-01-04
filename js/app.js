@@ -134,30 +134,12 @@
 
             var neighborhoodCounts = neighborhoodHistogram.counts;
 
-            /**
-             * Create the illusion of continuous change by using linear interpolation of values.
-             * @param values raw values
-             * @returns {Array} interpolated values
-             */
-            function interpolateValues(values) {
-                var result = [];
-                for(var i = 0; i < values.length - 1; i++) {
-                    result.push(values[i]);
-                    var interpolatedValues = d3.range(0.1, 0.9, 0.1).map(d3.interpolate(values[i], values[i + 1]));
-                    result = result.concat(interpolatedValues);
-                }
-                result.push(values[values.length - 1]);
-                return result;
-            }
-
-            var interpolatedCounts = interpolateValues(neighborhoodCounts);
-
 
             var frequencyScale = d3.scale.linear()
-                .domain([d3.min(interpolatedCounts),d3.max(interpolatedCounts)])
+                .domain([d3.min(neighborhoodCounts),d3.max(neighborhoodCounts)])
                 .range([instasound.MIN_FREQUENCY, instasound.MAX_FREQUENCY])
 
-            var frequencies = interpolatedCounts.map(frequencyScale)
+            var frequencies = neighborhoodCounts.map(frequencyScale)
             var noteTimeSeconds = instasound.PLAY_TIME_SECONDS/frequencies.length;
 
             instasound.clock.clearAll(); // Clears any previously scheduled audio.
