@@ -44,7 +44,7 @@ plot_instagram_point_base <- function(posts) {
 #' plot_instagram_points(posts_sample)
 plot_instagram_points <- function(posts) {
     plot_instagram_point_base(posts) +
-        geom_point(size=0.4)
+        geom_point(size=0.3)
 }
 
 #' Plots instagram map with no geographic map underneath. Use color to represent the time of day.
@@ -55,7 +55,7 @@ plot_instagram_points <- function(posts) {
 #' plot_instagram_points_with_tod(posts_sample)
 plot_instagram_points_with_tod <- function(posts) {
     plot_instagram_point_base(posts) +
-        geom_point(aes(color=published_tod), size=0.4)
+        geom_point(aes(color=published_tod), size=0.3)
 }
 
 #' Plots an instagram map with no geographic map underneath, and with the average location.

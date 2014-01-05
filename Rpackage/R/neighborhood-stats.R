@@ -15,6 +15,7 @@ calculate_neighborhood_stats <- function(posts) {
         posts=length(published)
     )
     # Reorder the neighborhood factor by top posts
+    neighborhood_stats <- neighborhood_stats[with(neighborhood_stats, order(-posts)), ]
     neighborhood_stats$neighborhood <- factor(neighborhood_stats$neighborhood,
                                               levels=rev(neighborhood_stats$neighborhood))
 

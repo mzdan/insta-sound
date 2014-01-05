@@ -33,8 +33,8 @@ plot_nyc_web_images <- function(posts, path) {
     save_plot('nyc_tod_polar', plot_tod_polar(posts), 4, 4)
 
     neighborhood_stats <- calculate_neighborhood_stats(posts)
-    save_plot('neighborhood_stats', plot_neighborhood_stats(neighborhood_stats), 8, 8)
-    save_plot('neighborhood_stats_log_scale', plot_neighborhood_stats_log_scale(neighborhood_stats), 8, 8)
+    save_plot('neighborhood_stats', plot_neighborhood_stats(neighborhood_stats), 10, 7)
+    save_plot('neighborhood_stats_log_scale', plot_neighborhood_stats_log_scale(neighborhood_stats), 10, 7)
 
 }
 
