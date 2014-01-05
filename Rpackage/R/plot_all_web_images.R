@@ -25,7 +25,7 @@ plot_nyc_web_images <- function(posts, path) {
     save_plot <- function(filename, plot_to_save, height, width) {
         filepath <- file.path(path, sprintf("%s.png", filename))
         print(sprintf("Plotting: %s", filepath))
-        ggsave(filepath, plot_to_save, height, width)
+        ggsave(filepath, plot_to_save, height=height, width=width)
     }
 
     save_plot('nyc_posts_map', plot_instagram_points(posts), 8, 4)
