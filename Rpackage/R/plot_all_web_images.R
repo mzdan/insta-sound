@@ -22,16 +22,20 @@ plot_nyc_web_images <- function(posts, path) {
     dir.create(path)
     plot_field_densities(posts, path)
 
-    save_plot <- function(filename, plot_to_save, height=4, width=4) {
+    save_plot <- function(filename, plot_to_save, height, width) {
         filepath <- file.path(path, sprintf("%s.png", filename))
-        ggsave(filepath, p, height=height, width=width)
+        print(sprintf("Plotting: %s", filepath))
+        ggsave(filepath, plot_to_save, height, width)
     }
 
-    save_plot('nyc_tod_polar', plot_tod_polar(posts))
+    save_plot('nyc_posts_map', plot_instagram_points(posts), 8, 4)
+    save_plot('nyc_posts_map_tod', plot_instagram_points_with_tod(posts), 8, 4)
+    save_plot('nyc_tod_polar', plot_tod_polar(posts), 4, 4)
 
     neighborhood_stats <- calculate_neighborhood_stats(posts)
-    save_plot('neighborhood_stats', plot_neighborhood_stats(neighborhood_stats))
-    save_plot('neighborhood_stats_log_scale', plot_neighborhood_stats_log_scale(neighborhood_stats))
+    save_plot('neighborhood_stats', plot_neighborhood_stats(neighborhood_stats), 8, 8)
+    save_plot('neighborhood_stats_log_scale', plot_neighborhood_stats_log_scale(neighborhood_stats), 8, 8)
+
 }
 
 #' Generates individual neighborhood stats plots.

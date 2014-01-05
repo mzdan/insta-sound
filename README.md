@@ -20,3 +20,9 @@ This work is provided under The MIT License (MIT). See LICENSE.
 
 <img style="width: 30%" src="https://raw.github.com/yoni/insta-sound/gh-pages/images/nyc_map_all_posts.png" />
 <img style="width: 50%" src="https://raw.github.com/yoni/insta-sound/gh-pages/images/nyc_tod_polar.png" />
+
+## Development Resources
+
+### Travis Build
+https://travis-ci.org/yoni/insta-sound
+
