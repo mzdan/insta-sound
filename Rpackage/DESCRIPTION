@@ -12,5 +12,6 @@ Depends:
     plyr,
     rjson,
     maps,
-    mapproj
+    mapproj,
+    reshape
 LazyData: true
