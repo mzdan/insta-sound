@@ -33,3 +33,11 @@ empty_theme_with_legend <- function() {
           plot.background=element_blank())
 }
 
+#' Creates a gradient color scale for time of day.
+#' @param night the color to use for nighttime
+#' @param day the color to use for daytime
+#' @export
+scale_color_tod <- function(night="navy", day="#FCD116") {
+    scale_color_gradientn(colours=c(night, day, night), name="Time of Day")
+}
+

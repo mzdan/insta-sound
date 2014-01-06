@@ -14,7 +14,7 @@ plot_top_users_map <- function(posts) {
 
     plot_base_map(posts) +
         geom_point(data=top_user_posts, aes(x=longitude, y=latitude, color=published_tod/60)) +
-        scale_color_gradientn(colours=c("navy", "#FCD116", "navy"), name="Time of Day") +
+        scale_color_tod() +
         facet_wrap(~name) +
         empty_theme_with_legend()
 

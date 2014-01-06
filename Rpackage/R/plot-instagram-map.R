@@ -66,9 +66,10 @@ plot_instagram_points_with_tod <- function(posts) {
 #' plot_instagram_map_with_tod(posts_sample)
 plot_instagram_map_with_tod <- function(posts) {
 
-    plot_base_map(posts) +
-        geom_point(data=posts, aes(x=longitude, y=latitude, color=published_tod/60, size=0.3)) +
-        scale_color_gradientn(colours=c("navy", "#FCD116", "navy"), name="Time of Day")
+    plot_base_map(posts, type="osm-wanderreitkarte") +
+        geom_point(data=posts, aes(x=longitude, y=latitude, color=published_tod/60), size=0.3) +
+        scale_color_tod() +
+        empty_theme_with_legend()
 
 }
 
@@ -87,14 +88,15 @@ plot_instagram_points_with_average <- function(posts) {
 
 #' Plot base map of the NYC area.
 #' @param posts instagram posts
+#' @param type type of tiles to use. See OpenStreetMap R package
 #' @export
 #' @examples
 #' data(posts_sample)
 #' plot_base_map(posts_sample)
-plot_base_map <- function(posts) {
+plot_base_map <- function(posts, type="mapbox") {
     upperLeft <- c(max(posts$latitude), min(posts$longitude))
     lowerRight <- c(min(posts$latitude), max(posts$longitude))
-    map <- openmap(upperLeft, lowerRight, minNumTiles=9, type='mapbox')
+    map <- openmap(upperLeft, lowerRight, minNumTiles=9, type=type)
     mapLatLon <- openproj(map)
     autoplot(mapLatLon)
 }
