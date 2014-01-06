@@ -58,6 +58,20 @@ plot_instagram_points_with_tod <- function(posts) {
         geom_point(aes(color=published_tod), size=0.3)
 }
 
+#' Plots geographic isntagram with TOD.
+#' @param posts instagram posts
+#' @export
+#' @examples
+#' data(posts_sample)
+#' plot_instagram_map_with_tod(posts_sample)
+plot_instagram_map_with_tod <- function(posts) {
+
+    plot_base_map(posts) +
+        geom_point(data=posts, aes(x=longitude, y=latitude, color=published_tod/60, size=0.3)) +
+        scale_color_gradientn(colours=c("navy", "#FCD116", "navy"), name="Time of Day")
+
+}
+
 #' Plots an instagram map with no geographic map underneath, and with the average location.
 #' @param posts instagram posts
 #' @export
@@ -70,3 +84,18 @@ plot_instagram_points_with_average <- function(posts) {
     plot_instagram_points(posts) +
         geom_point(x=avg_longitude, y=avg_latitude, size=8, color='red')
 }
+
+#' Plot base map of the NYC area.
+#' @param posts instagram posts
+#' @export
+#' @examples
+#' data(posts_sample)
+#' plot_base_map(posts_sample)
+plot_base_map <- function(posts) {
+    upperLeft <- c(max(posts$latitude), min(posts$longitude))
+    lowerRight <- c(min(posts$latitude), max(posts$longitude))
+    map <- openmap(upperLeft, lowerRight, minNumTiles=9, type='mapbox')
+    mapLatLon <- openproj(map)
+    autoplot(mapLatLon)
+}
+
