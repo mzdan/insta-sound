@@ -116,10 +116,24 @@
             // Stop all previous audio.
             if(instasound.synth) {
                 instasound.synth.pause();
+                instasound.beatSynth.pause();
             }
 
             instasound.synth = flock.synth({
                 nickName: "sin-synth",
+                synthDef: {
+                    id: "carrier",
+                    ugen: "flock.ugen.sinOsc",
+                    mul: {
+                        ugen: "flock.ugen.line",
+                        start: 0.5,
+                        end: 0.5,
+                        duration: 1.0
+                    }
+                }
+            });
+            instasound.beatSynth = flock.synth({
+                nickName: "beat-synth",
                 synthDef: {
                     id: "carrier",
                     ugen: "flock.ugen.sinOsc",
@@ -140,40 +154,63 @@
                 .range([instasound.MIN_FREQUENCY, instasound.MAX_FREQUENCY])
 
             var frequencies = neighborhoodCounts.map(frequencyScale)
+            var timeOfDayFrequencies = frequencies.map(function(frequency, i) {
+                                        switch(Math.floor(i/24))
+                                        {
+                                            case 0:
+                                                return 200;
+                                            case 1:
+                                                return 300;
+                                            case 2:
+                                                return 400;
+                                            case 3:
+                                                return 500;
+                                            default:
+                                                throw "Fuck";
+                                        }
+                                    });
             var noteTimeSeconds = instasound.PLAY_TIME_SECONDS/frequencies.length;
 
-            instasound.clock.clearAll(); // Clears any previously scheduled audio.
-            instasound.clock.schedule([
-                {
-                    interval: "repeat",
-                    time: noteTimeSeconds,
-                    change: {
-                        synth: "sin-synth",
-                        values: {
-                            "carrier.freq": {
-                                synthDef: {
-                                    ugen: "flock.ugen.sequence",
-                                    list: frequencies
+            function scheduleSynth(freq, name) {
+                instasound.clock.schedule([
+                    {
+                        interval: "repeat",
+                        time: noteTimeSeconds,
+                        change: {
+                            synth: name,
+                            values: {
+                                "carrier.freq": {
+                                    synthDef: {
+                                        ugen: "flock.ugen.sequence",
+                                        list: freq
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                {
-                    interval: "once",
-                    time: instasound.PLAY_TIME_SECONDS,
-                    change: {
-                        synth: "sin-synth",
-                        values: {
-                            "carrier.mul.start": 0.25,
-                            "carrier.mul.end": 0.0,
-                            "carrier.mul.duration": noteTimeSeconds
+                    },
+                    {
+                        interval: "once",
+                        time: instasound.PLAY_TIME_SECONDS,
+                        change: {
+                            synth: name,
+                            values: {
+                                "carrier.mul.start": 0.25,
+                                "carrier.mul.end": 0.0,
+                                "carrier.mul.duration": noteTimeSeconds
+                            }
                         }
                     }
-                }
-            ]);
+                ]);
+
+            }
+
+            instasound.clock.clearAll(); // Clears any previously scheduled audio.
+
+            scheduleSynth(frequencies, 'sin-synth');
+            scheduleSynth(timeOfDayFrequencies, 'beat-synth');
 
             instasound.synth.play();
+            instasound.beatSynth.play();
 
         }
 
