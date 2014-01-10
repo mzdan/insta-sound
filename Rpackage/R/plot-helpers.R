@@ -41,3 +41,13 @@ scale_color_tod <- function(night="navy", day="#FCD116") {
     scale_color_gradientn(colours=c(night, day, night), name="Time of Day")
 }
 
+#' Scales the x-axis according to the time of day.
+#' @export
+scale_x_tod <- function() {
+    scale_x_continuous(
+        limits=c(0,24),
+        breaks=c(0, 6, 12, 18, 24),
+        labels=c("midnight", "6am", "noon", "6pm", "midnight")
+    )
+}
+

@@ -23,10 +23,7 @@ plot_field_densities <- function(posts, path) {
 
     p <- ggplot(posts, aes(x=published_tod/60)) +
         geom_density() +
-        scale_x_continuous(
-            breaks=c(0, 6, 12, 18, 24),
-            labels=c("midnight", "6am", "noon", "6pm", "midnight")
-        ) +
+        scale_x_tod() +
         xlab('time of day')
 
     plot_field('time_of_day', p)
