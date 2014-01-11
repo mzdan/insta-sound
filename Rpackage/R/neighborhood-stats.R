@@ -23,6 +23,40 @@ calculate_neighborhood_stats <- function(posts) {
 
 }
 
+#' Stores neighborhood_stats in the given path.
+#' @param neighborhood_stats stats
+#' @param path in which to store the stats
+#' @export
+#' @examples
+#' data(posts_sample)
+#' neighborhood_stats <- calculate_neighborhood_stats(posts_sample)
+#' store_neighborhood_stats(neighborhood_stats, tempdir())
+store_neighborhood_stats <- function(neighborhood_stats, path) {
+    write.csv(neighborhood_stats, file=file.path(path, "neighborhood_stats.csv"), quote=FALSE, row.names=FALSE)
+}
+
+#' Calculated neighborhood stats.
+#' @param posts the instagram posts, including neighborhoods
+#' @export
+#' @examples
+#' data(posts_sample)
+#' data(posts_sample)
+#' temporary_path <- tempdir()
+#' calculate_neighborhood_histograms(posts_sample)
+calculate_neighborhood_histograms <- function(posts) {
+
+    dlply(
+        posts,
+        .(neighborhood),
+        function(d) {
+            neighborhood = d[1, 'neighborhood']
+            filename = sprintf('neighborhood_histogram_%s.json', neighborhood)
+            hist(d$published_tod, plot=FALSE, breaks=seq(0,24 * 60,by=15))
+        }
+    )
+
+}
+
 #' Melts neighborhood stats into a form that makes it easier to create some types of plots.
 #' @param neighborhood_stats generated from posts
 melt_neighborhood_stats <- function(neighborhood_stats) {

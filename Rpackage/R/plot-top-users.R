@@ -17,7 +17,11 @@ plot_top_users_map <- function(top_user_posts) {
 
 #' Plots the polar histogram of TOD with user names as facets
 #' @export
-plot_top_users_tod_polar(top_user_posts) {
+#' @examples
+#' data(posts_sample)
+#' top_user_posts <- get_top_user_posts(posts_sample)
+#' plot_top_users_tod_polar(top_user_posts)
+plot_top_users_tod_polar <- function(top_user_posts) {
     plot_tod_polar(top_user_posts) + facet_wrap(~name)
 }
 
