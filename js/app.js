@@ -63,7 +63,7 @@
             var map = L.mapbox.map('nyc_map').setView(MAP_CENTER, MAP_ZOOM);
 
             var postVolumes = d3.map(instasound.neighborhoodStats).values().map(function(d) {return d.posts});
-            var postVolumeScale = d3.scale.linear()
+            var postVolumeScale = d3.scale.log()
                 .domain([d3.min(postVolumes), d3.max(postVolumes)])
                 .range(["black", "red"]);
 
@@ -78,6 +78,7 @@
                     layer.setStyle({
                         weight: 1,
                         color: "black",
+                        fillOpacity: 1,
                         fillColor: postVolumeScale(instasound.neighborhoodStats[neighborhood].posts)
                     });
 
@@ -93,9 +94,6 @@
                 }
             }
 
-            // Here is where the magic happens: Manipulate the z-index of tile layers,
-            // this makes sure our vector data shows up above the background map and
-            // under roads and labels.
             L.mapbox.tileLayer('bmesh.gpmgindc').addTo(map);
 
             // Add NYC Neighborhood vector data to map
@@ -107,9 +105,8 @@
 
         /**
          * For a given neighborhood's time-of-day instagram post histogram:
-         * 1. Interpolate extra values to "fill" the histogram with more data points
-         * 2. Map values from the original scale to a human-audible frequency scale
-         * 3. Schedule the notes to play over the course of PLAY_TIME_SECONDS
+         * 1. Map values from the original scale to a human-audible frequency scale
+         * 2. Schedule the notes to play over the course of PLAY_TIME_SECONDS
          * @param error d3.js error loading neighborhood histogram data
          * @param neighborhoodHistogram counts, density, and intervals of neighborhood instagram posts for each time-of-day
          */
