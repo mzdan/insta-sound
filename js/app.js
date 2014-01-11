@@ -155,7 +155,7 @@
 
             var frequencies = neighborhoodCounts.map(frequencyScale)
             var timeOfDayFrequencies = frequencies.map(function(frequency, i) {
-                                        switch(Math.floor(i/24))
+                                        switch(Math.floor(i/(frequencies.length/4)))
                                         {
                                             case 0:
                                                 return 200;
@@ -165,8 +165,6 @@
                                                 return 400;
                                             case 3:
                                                 return 500;
-                                            default:
-                                                throw "Fuck";
                                         }
                                     });
             var noteTimeSeconds = instasound.PLAY_TIME_SECONDS/frequencies.length;
@@ -190,7 +188,7 @@
                     },
                     {
                         interval: "once",
-                        time: instasound.PLAY_TIME_SECONDS,
+                        time: instasound.PLAY_TIME_SECONDS/frequencies.length,
                         change: {
                             synth: name,
                             values: {
