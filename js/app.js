@@ -103,6 +103,24 @@
 
         }
 
+
+        /**
+         * Stop all previous audio from running.
+         */
+        function stopAudio() {
+
+            instasound.clock.clearAll();
+
+            if(instasound.synth) {
+                instasound.synth.pause();
+            }
+
+            if(instasound.beatSynth) {
+                instasound.beatSynth.pause();
+            }
+
+        }
+
         /**
          * For a given neighborhood's time-of-day instagram post histogram:
          * 1. Map values from the original scale to a human-audible frequency scale
@@ -111,105 +129,110 @@
          * @param neighborhoodHistogram counts, density, and intervals of neighborhood instagram posts for each time-of-day
          */
         function playNeighborhoodHistogram(error, neighborhoodHistogram) {
+            stopAudio();
 
-            // Stop all previous audio.
-            if(instasound.synth) {
-                instasound.synth.pause();
-                instasound.beatSynth.pause();
-            }
+            var neighborhoodCounts = neighborhoodHistogram.counts;
+
+            var frequencyScale = d3.scale.linear()
+                .domain([d3.min(neighborhoodCounts),d3.max(neighborhoodCounts)])
+                .range([instasound.MIN_FREQUENCY, instasound.MAX_FREQUENCY]);
+
+            var frequencies = neighborhoodCounts.map(frequencyScale);
+            var timeOfDayFrequencies = frequencies.map(function(frequency, i) {
+                switch(Math.floor(i/(frequencies.length/4)))
+                {
+                    case 0:
+                        return 200;
+                    case 1:
+                        return 300;
+                    case 2:
+                        return 400;
+                    case 3:
+                        return 500;
+                }
+            });
+
+            var noteTimeSeconds = instasound.PLAY_TIME_SECONDS/frequencies.length;
 
             instasound.synth = flock.synth({
                 nickName: "sin-synth",
                 synthDef: {
                     id: "carrier",
                     ugen: "flock.ugen.sinOsc",
+                    freq: {
+                        ugen: "flock.ugen.sequence",
+                        freq: 1 / noteTimeSeconds,
+                        list: frequencies
+                    },
                     mul: {
                         ugen: "flock.ugen.line",
                         start: 0.5,
                         end: 0.5,
-                        duration: 1.0
+                        duration: 0.0
                     }
                 }
             });
+
             instasound.beatSynth = flock.synth({
                 nickName: "beat-synth",
-                synthDef: {
-                    id: "carrier",
+                synthDef: [{
+                    id: "carrier-left",
                     ugen: "flock.ugen.sinOsc",
+                    freq: {
+                        ugen: "flock.ugen.sequence",
+                        freq: 1 / noteTimeSeconds,
+                        list: timeOfDayFrequencies
+                    },
                     mul: {
                         ugen: "flock.ugen.line",
                         start: 0.5,
                         end: 0.5,
-                        duration: 1.0
+                        duration: 0.0
                     }
-                }
+                }, {
+                    id: "carrier-right",
+                    ugen: "flock.ugen.sinOsc",
+                    freq: {
+                        ugen: "flock.ugen.sequence",
+                        freq: 1 / noteTimeSeconds,
+                        list: timeOfDayFrequencies.map(function (f) {
+                            return f + 4;
+                        })
+                    },
+                    mul: {
+                        ugen: "flock.ugen.line",
+                        start: 0.5,
+                        end: 0.5,
+                        duration: 0.0
+                    }
+                }]
             });
 
-            var neighborhoodCounts = neighborhoodHistogram.counts;
-
-
-            var frequencyScale = d3.scale.linear()
-                .domain([d3.min(neighborhoodCounts),d3.max(neighborhoodCounts)])
-                .range([instasound.MIN_FREQUENCY, instasound.MAX_FREQUENCY])
-
-            var frequencies = neighborhoodCounts.map(frequencyScale)
-            var timeOfDayFrequencies = frequencies.map(function(frequency, i) {
-                                        switch(Math.floor(i/(frequencies.length/4)))
-                                        {
-                                            case 0:
-                                                return 200;
-                                            case 1:
-                                                return 300;
-                                            case 2:
-                                                return 400;
-                                            case 3:
-                                                return 500;
-                                        }
-                                    });
-
-            var noteTimeSeconds = instasound.PLAY_TIME_SECONDS/frequencies.length;
-            console.log(noteTimeSeconds);
-
-            function scheduleSynth(freq, name) {
-                instasound.clock.schedule([
-                    {
-                        interval: "repeat",
-                        time: noteTimeSeconds,
-                        change: {
-                            synth: name,
-                            values: {
-                                "carrier.freq": {
-                                    synthDef: {
-                                        ugen: "flock.ugen.sequence",
-                                        list: freq
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        interval: "once",
-                        time: instasound.PLAY_TIME_SECONDS,
-                        change: {
-                            synth: name,
-                            values: {
-                                "carrier.mul.start": 0.25,
-                                "carrier.mul.end": 0.0,
-                                "carrier.mul.duration": instasound.PLAY_TIME_SECONDS
-                            }
-                        }
+            function fadeOutAmp(synthName, atTime, startMul, endMul, duration, carriers) {
+                var values = {};
+                for (var i = 0; i < carriers.length; i++) {
+                    values[carriers[i] + ".mul.start"] = startMul;
+                    values[carriers[i] + ".mul.end"] = endMul;
+                    values[carriers[i] + ".mul.duration"] = duration;
+                }
+                return {
+                    interval: "once",
+                    time: atTime,
+                    change: {
+                        synth: synthName,
+                        values: values
                     }
-                ]);
-
+                };
             }
 
-            instasound.clock.clearAll(); // Clears any previously scheduled audio.
+            var fadeOutTime = instasound.PLAY_TIME_SECONDS;
 
-            scheduleSynth(frequencies, 'sin-synth');
-            scheduleSynth(timeOfDayFrequencies, 'beat-synth');
+            instasound.clock.schedule([
+                fadeOutAmp("sin-synth", fadeOutTime, 0.5, 0.0, 0.5, ['carrier']),
+                fadeOutAmp("beat-synth", fadeOutTime, 0.5, 0.0, 0.5, ['carrier-left', 'carrier-right'])
+            ]);
 
-            instasound.synth.play();
-            instasound.beatSynth.play();
+            flock.enviro.shared.play();
 
         }
 
@@ -224,6 +247,7 @@
                     // start/stop the synth.
                     clock: flock.scheduler.async(),
                     synth: undefined,
+                    beatSynth: undefined,
                     neighborhoodStats: neighborhoodStatsData,
                     neighborhoodGeoJSON: neighborhoodGeoJSONData,
                     PLAY_TIME_SECONDS : 12,
