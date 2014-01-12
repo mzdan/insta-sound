@@ -24,7 +24,6 @@
         return frequencies;
     }
     var melodyScaleFrequencies = calculateFrequencies(["E3", "E4", "E5"], "major");
-    console.log(melodyScaleFrequencies);
 
     /**
      * Stop all previous audio from running.
@@ -60,7 +59,6 @@
             .range(melodyScaleFrequencies);
 
         var frequencies = neighborhoodCounts.map(frequencyScale);
-        console.log(frequencies);
         var timeOfDayFrequencies = frequencies.map(function(frequency, i) {
             return beatScaleFrequencies[Math.floor(i/(frequencies.length/4))];
         });
