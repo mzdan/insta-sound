@@ -18,12 +18,15 @@ used by the web application.
 
 This work is provided under The MIT License (MIT). See LICENSE.
 
-![Posts by time of day and location](/images/nyc_instagram_posts_by_tod.png)
-![Posts by time of day](/images/nyc/nyc_tod_polar.png)
-![Most active users map with time of day](/images/top_users_tod_map.png)
-
 ## Development Resources
 
 ### Travis Build
 https://travis-ci.org/yoni/insta-sound
+
+
+## Example exploratory images
+
+![Posts by time of day and location](/images/nyc_instagram_posts_by_tod.png)
+![Posts by time of day](/images/nyc/nyc_tod_polar.png)
+![Most active users map with time of day](/images/top_users_tod_map.png)
 
