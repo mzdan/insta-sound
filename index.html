@@ -48,8 +48,8 @@
         <nav id="nav">
             <ul>
                 <li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Instagram in NYC</span></a></li>
-                <li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">Exploring the data</span></a></li>
 				<li><a href="#portfolio" id="portfolio-link" class="skel-panels-ignoreHref"><span class="fa fa-th">The sound of a </br>neighborhood</span></a></li>
+				<li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">Exploring the data</span></a></li>
                 <li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="fa fa-envelope">Project credits</span></a></li>
             </ul>
         </nav>
@@ -92,6 +92,9 @@
             <header>
                 <h2>The sound of a neighborhood</h2>
             </header>
+			<p>Instagram reports that its 150M monthly active users post 55M times per day, worldwide.<br />The dataset we worked with contained Instagram posts in New York City, inclusive of several of the most “Instagramed” spots in the world (like Times Square, Central Park, and the High Line). We wanted to explore the usage patterns of the 101,775 users represented in our data, who posted to Instagram from New York locations over 300,000 times during the first week of October 2013.<br />
+			</p>
+			<p>After we did some initial explorations of the full dataset (see below), we noticed certain high-volume neighborhoods like Midtown, daytime-intensive spots like New York City parks, and late-night activity in Williamsburg and the Lower East Side. We began to imagine: What does an average day of Instagram posts sound like in each New York neighborhood? if you mapped locations or users to frequencies?</p>
             <div id="map_title">Click on a neighborhood to see and hear its histogram</div>
 
             <p><span id="borough"></span></p>
@@ -106,6 +109,7 @@
             <div id="nyc_map2">
 
                 <a class="image featured"><img src="images/nyc/nyc_tod_polar.png" alt="" /></a>
+<p>Using MapBox and a "point-in-polygon" algorithm, we found that each neighborhood had a unique density sound signature&mdash;the frequency of the sound we used increases when then density of Instagram posts increases. There's a bass tone every six hours to help give the listener a stronger sense of the passing day.
                 <h3>Future explorations of individual users</h3>
 
 
@@ -125,16 +129,15 @@
                 <h2>Exploring the data</h2>
             </header>
 
-           	<p>Our initial motivation was to use data to generate sonic compositions&mdash;ideally ones that represent patterns in large quantities of social data. Sonification, as a way to perceptualize information, can be a challenging way to convey meaning. Therefore, before we mapped any of our data to sound, we explored simple parameters and demensions of our dataset&mdash;like geo-coordinates and timestamps&mdash;to understand meaningful differences in Instagram usage across New York City. We focused on understanding neighborhoods in New York, as well as the time of day that Instagram posts were made in each area.</p>
+           	<p>Our initial motivation was to use data to generate sonic compositions&mdash;ideally ones that represent patterns in large quantities of social data. Sonification, as a way to perceptualize information, can be a challenging way to convey meaning. Therefore, before we mapped any of our data to sound, we explored simple parameters and dimensions of our dataset&mdash;like geo-coordinates and timestamps&mdash;to understand meaningful differences in Instagram usage across New York City. We focused on understanding neighborhoods in New York, as well as the time of day that Instagram posts were made in each area.</p>
 			<p>In the chart below, you can see that there is a wide range in how many posts occur in different neighborhoods in the city:</p>
 			<a href="images/nyc/neighborhood_stats.png" class="image featured"><img src="images/nyc/neighborhood_stats.png" alt="" /></a>
-			<p>Looking more closely at the total volume of posts, we confirmed clear areas of post density, as well as areas that had more nighttime activity than others. The dots here get lighter as the day progresses&mdash;the darkest dots are posts that occurred just after midnight, and the lightest dots occurred late in the evening on the same day.</p>
+			<p>We started with basic questions: Where were they posted? What times of day? Who was posting?</p>
+			<p>We used the geocoordinates of each post to visualize Instagram volume over an average day in the city.</p>
 			<a href="images/nyc_instagram_posts_by_tod.png" class="image featured"><img src="images/nyc_instagram_posts_by_tod.png" alt="" /></a>
 			<p>A secondary way of seeing the density of posts over a single average day:</p>
-			<a href="images/nyc/published.png" class="image featured"><img src="images/nyc/published.png" alt="" /></a>
-			
-            To better understand these density distributions, and to see if they varied widely from neighborhood to neighborhood, we looked at the volume of Instagram posts for specific areas, using MapBox and a "point-in-polygon" algorithm. We found that each neighborhood had a unique density signature, and chose to sonify this signature. By taking a week of Instagram data from October, we created histograms of posts over an average day. The frequency of the sound we used increases when then density of Instagram posts increases. Explore the results in the next section: 
-
+			<a href="images/nyc/published.png" class="image featured"><img src="images/nyc/published.png" alt="" /></a>	
+            To better understand these density distributions, and to see if they varied widely from neighborhood to neighborhood, we looked at the volume of Instagram posts for specific areas, using MapBox and a "point-in-polygon" algorithm. We found that each neighborhood had a unique density signature, and chose to sonify this signature. By taking a week of Instagram data from October, we created histograms of posts over an average day. The frequency of the sound we used increases when then density of Instagram posts increases.
         </div>
     </section>
 
