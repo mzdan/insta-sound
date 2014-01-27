@@ -66,7 +66,7 @@ plot_instagram_points_with_tod <- function(posts) {
 #' plot_instagram_map_with_tod(posts_sample)
 plot_instagram_map_with_tod <- function(posts) {
 
-    plot_base_map(posts, type="osm-wanderreitkarte") +
+    plot_base_map(posts, type="osm-bbike") +
         geom_point(data=posts, aes(x=longitude, y=latitude, color=published_tod/60), size=0.3) +
         scale_color_tod() +
         empty_theme_with_legend()

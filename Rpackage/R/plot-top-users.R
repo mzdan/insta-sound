@@ -30,8 +30,6 @@ plot_top_users_tod_polar <- function(top_user_posts) {
 get_top_user_posts <- function(posts, limit=9) {
     top_users <- calculate_top_users(posts, limit)
     top_user_posts <- posts[posts$name %in% top_users$name,]
-
-    plot_base_map(posts) +
     top_users <- calculate_top_users(posts, limit)
     posts[posts$name %in% top_users$name,]
 }
